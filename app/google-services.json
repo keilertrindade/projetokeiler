@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "584546006082",
+    "firebase_url": "https://projeto-bionet.firebaseio.com",
+    "project_id": "projeto-bionet",
+    "storage_bucket": "projeto-bionet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584546006082:android:4b57ccae7d19d9dd",
+        "android_client_info": {
+          "package_name": "projeto.bionet.example.com.bionet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584546006082-2f341jl64m93jg9opgeklcl4ong5ea87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO6v0iN136t5_NSqbrVuEFZVKgA7XxmCQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
