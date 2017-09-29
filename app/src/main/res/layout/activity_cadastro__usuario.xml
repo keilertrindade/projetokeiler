@@ -37,16 +37,18 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:orientation="horizontal"
+                   android:id="@+id/radiogroup"
                    >
 
-                   <RadioButton android:id="@+id/radio_pirates"
+                   <RadioButton android:id="@+id/p_fisica"
                        android:layout_width="0dp"
                        android:layout_weight="1"
                        android:layout_height="wrap_content"
                        android:text="Pessoa Fisica"
+                       android:checked="true"
                        />
 
-                   <RadioButton android:id="@+id/radio_ninjas"
+                   <RadioButton android:id="@+id/p_juridica"
                        android:layout_width="0dp"
                        android:layout_weight="1"
                        android:layout_height="wrap_content"
@@ -101,6 +103,21 @@
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
+
+               <android.support.design.widget.TextInputLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <AutoCompleteTextView
+                       android:id="@+id/razao"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:hint="Razão Social"
+                       android:inputType="textEmailAddress"
+                       android:maxLines="1"
+                       android:singleLine="true" />
+
+               </android.support.design.widget.TextInputLayout>
 
 
                 <Button
