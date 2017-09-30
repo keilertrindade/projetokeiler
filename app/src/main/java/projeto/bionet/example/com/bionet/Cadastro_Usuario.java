@@ -1,5 +1,6 @@
 package projeto.bionet.example.com.bionet;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,42 +16,31 @@ public class Cadastro_Usuario extends AppCompatActivity {
    // RadioGroup grupo = (RadioGroup) findViewById(R.id.radiogroup);
    // EditText et1 = (EditText) findViewById(R.id.nome);
    // EditText et2 = (EditText) findViewById(R.id.razao);
-   AutoCompleteTextView nome;
-   AutoCompleteTextView razao;
    RadioGroup RGrupo;
-   android.support.design.widget.TextInputLayout nome1;
-   android.support.design.widget.TextInputLayout razao1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_cadastro__usuario);
-        nome = (AutoCompleteTextView) findViewById(R.id.nome);
-        razao = (AutoCompleteTextView) findViewById(R.id.razao);
         RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
-        nome1 = (android.support.design.widget.TextInputLayout) findViewById(R.id.nome1);
-        razao1 = (android.support.design.widget.TextInputLayout) findViewById(R.id.razao1);
+
 
         RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                if (checkedId == R.id.p_fisica) {
+                if (checkedId == R.id.p_juridica) {
                     //do work when radioButton1 is active
-                    nome1.setVisibility(View.VISIBLE);
-                    razao1.setVisibility(View.INVISIBLE);
-
-                } else  if (checkedId == R.id.p_juridica) {
-                    //do work when radioButton2 is active
-                    nome1.setVisibility(View.INVISIBLE);
-                    razao1.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(Cadastro_Usuario.this,cadastroPJuridica.class);
+                    startActivity(intent);
+                    finish();
                 }
 
             }
         });
-
-
     }
 
 
