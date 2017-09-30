@@ -27,34 +27,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-           <LinearLayout
+        <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-               <RadioGroup
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:orientation="horizontal"
-                   android:id="@+id/radiogroup"
-                   >
+            <RadioGroup
+                android:id="@+id/radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
 
-                   <RadioButton android:id="@+id/p_fisica"
-                       android:layout_width="0dp"
-                       android:layout_weight="1"
-                       android:layout_height="wrap_content"
-                       android:text="Pessoa Fisica"
-                       android:checked="true"
-                       />
+                >
 
-                   <RadioButton android:id="@+id/p_juridica"
-                       android:layout_width="0dp"
-                       android:layout_weight="1"
-                       android:layout_height="wrap_content"
-                       android:text="Pessoa Juridica"
-                       />
-               </RadioGroup>
+                <RadioButton
+                    android:id="@+id/p_fisica"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pessoa Fisica"
+                    android:checked="true"/>
+
+
+                <RadioButton
+                    android:id="@+id/p_juridica"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pessoa Juridica" />
+            </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -91,7 +93,9 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/nome1"
+                >
 
                 <AutoCompleteTextView
                     android:id="@+id/nome"
@@ -104,30 +108,35 @@
 
             </android.support.design.widget.TextInputLayout>
 
-               <android.support.design.widget.TextInputLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/razao1"
+                android:visibility="invisible"
+                >
 
-                   <AutoCompleteTextView
-                       android:id="@+id/razao"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:hint="Razão Social"
-                       android:inputType="textEmailAddress"
-                       android:maxLines="1"
-                       android:singleLine="true" />
-
-               </android.support.design.widget.TextInputLayout>
-
-
-                <Button
-                    android:id="@+id/botao_registro"
-                    style="?android:textAppearanceSmall"
+                <AutoCompleteTextView
+                    android:id="@+id/razao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Cadastre-se"
-                    android:textStyle="bold" />
+                    android:hint="Razao Social"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/botao_registro"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Cadastre-se"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
