@@ -33,7 +33,6 @@ public class Cadastro_Usuario extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.p_juridica) {
-                    //do work when radioButton1 is active
                     Intent intent = new Intent(Cadastro_Usuario.this,cadastroPJuridica.class);
                     startActivity(intent);
                     finish();
@@ -42,19 +41,5 @@ public class Cadastro_Usuario extends AppCompatActivity {
             }
         });
     }
-
-
-     /*Provavelmente será mais fácil apenas alterar o layout, escondendo os campos tem o problema do restante ficar
-     * desarrumado. Vou pensar em uma forma de organizar (talvez dividindo em groupviews). O ruim que alterando o layout
-     * talvez dê problema com os radiobutton, teria que modificar tudo abaixo deles apenas.
-     *
-     * Usando outro layout, posso manter o radiogroup com o mesmo id para reaproveitar o código de troca de tela.
-     *
-     * Posso apenas deixar os campos desabilitados, seria mais prático mas talvez o layout ficasse uma bosta... Posso tentar utilizar
-     * relative layout para suprir o espaço deixado quando um campo se torna invisível.
-     *
-     * */
-
-
     }
 

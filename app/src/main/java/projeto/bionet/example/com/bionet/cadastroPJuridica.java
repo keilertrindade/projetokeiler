@@ -22,7 +22,6 @@ public class cadastroPJuridica extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.p_fisica) {
-                    //do work when radioButton1 is active
                     Intent intent = new Intent(cadastroPJuridica.this,Cadastro_Usuario.class);
                     startActivity(intent);
                     finish();
