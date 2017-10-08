@@ -8,7 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="projeto.bionet.example.com.bionet.Login">
+    tools:context="projeto.bionet.example.com.bionet.Login"
+    android:focusable="true" android:focusableInTouchMode="true"
+    >
 
     <!-- Login progress -->
     <ProgressBar
@@ -50,13 +52,10 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/senha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
+                    android:hint="Senha"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -75,7 +74,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:text="Login"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="clickLogin"
+                />
 
             <Button
                 android:id="@+id/botao_registro"
@@ -84,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Cadastre-se"
-                android:onClick="onClick"
+                android:onClick="Cadastro"
                 android:textStyle="bold" />
 
         </LinearLayout>
