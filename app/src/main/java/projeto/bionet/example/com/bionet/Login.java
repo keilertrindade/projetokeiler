@@ -36,8 +36,7 @@ public class Login extends AppCompatActivity {
         etSenha = (EditText) findViewById(R.id.senha);
         etEmail = (EditText) findViewById(R.id.email);
         botao = (Button) findViewById(R.id.botao_registro);
-        email = etEmail.getText().toString();
-        senha = etSenha.getText().toString();
+
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -66,34 +65,26 @@ public class Login extends AppCompatActivity {
 
     public void clickLogin(View v) {
 
+        email = etEmail.getText().toString();
+        senha = etSenha.getText().toString();
+
         mAuth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            String exp = task.getException().toString();
-                            Toast.makeText(Login.this, exp,
+                            //String exp = task.getException().toString();
+                            Toast.makeText(Login.this, "Não logou",
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Toast.makeText(Login.this, "Bem Vindo!",
                                     Toast.LENGTH_LONG).show();
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
                             }
-
-                            Intent intent = new Intent(Login.this,LobbyActivity.class);
-                            startActivity(intent);
-
-
-                        }
 
                         // ...
                     }
