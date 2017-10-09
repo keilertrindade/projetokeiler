@@ -16,12 +16,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
+
+
 public class Login extends AppCompatActivity {
 
     private Button botao;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private EditText edtEmail, edtSenha;
+    private EditText etEmail, etSenha;
     String email, senha;
 
     @Override
@@ -30,10 +33,11 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login2);
         mAuth = FirebaseAuth.getInstance();
 
-        edtSenha = (EditText) findViewById(R.id.senha);
-        edtEmail = (EditText) findViewById(R.id.email);
+        etSenha = (EditText) findViewById(R.id.senha);
+        etEmail = (EditText) findViewById(R.id.email);
         botao = (Button) findViewById(R.id.botao_registro);
-        email = edtEmail.getText().toString() ;
+        email = etEmail.getText().toString();
+        senha = etSenha.getText().toString();
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -54,33 +58,52 @@ public class Login extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
     public void clickLogin(View v) {
 
-        mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        mAuth.signInWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                if (!task.isSuccessful()) {
-                    Log.w("AUTH", "Falha ao efetuar o Login: ", task.getException());
-                }else{
-                    Log.d("AUTH", "Login Efetuado com sucesso!!!");
-                }
-            }
-        });
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            String exp = task.getException().toString();
+                            Toast.makeText(Login.this, exp,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(Login.this, "Bem Vindo!",
+                                    Toast.LENGTH_LONG).show();
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Intent intent = new Intent(Login.this,LobbyActivity.class);
+                            startActivity(intent);
+
+
+                        }
+
+                        // ...
+                    }
+                });
     }
 
 
     public void Cadastro (View v) {
         Intent intent = new Intent(Login.this,Cadastro_Usuario.class);
         startActivity(intent);
-    }
-
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
