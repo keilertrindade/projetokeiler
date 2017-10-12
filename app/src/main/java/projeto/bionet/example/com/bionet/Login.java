@@ -88,7 +88,6 @@ public class Login extends AppCompatActivity {
                             // signed in user can be handled in the listener.
 
                             if (!task.isSuccessful()) {
-                                //String exp = task.getException().toString();
                                 Toast.makeText(Login.this, "Usuário ou Senha Inválidos",
                                         Toast.LENGTH_SHORT).show();
                             } else {
@@ -108,6 +107,7 @@ public class Login extends AppCompatActivity {
     public void Cadastro (View v) {
         Intent intent = new Intent(Login.this,Cadastro_Usuario.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.fadeout, R.anim.fadein);
     }
 
     @Override
