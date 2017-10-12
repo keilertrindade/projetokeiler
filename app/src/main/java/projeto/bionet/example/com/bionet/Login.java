@@ -80,11 +80,17 @@ public class Login extends AppCompatActivity {
                             //String exp = task.getException().toString();
                             Toast.makeText(Login.this, "Não logou",
                                     Toast.LENGTH_SHORT).show();
+
+                           /* Intent intent = new Intent(Login.this,Login.class);
+                            startActivity(intent); */
                         }
                         else{
                             Toast.makeText(Login.this, "Bem Vindo!",
                                     Toast.LENGTH_LONG).show();
-                            }
+                            Intent intent = new Intent(Login.this,LobbyActivity.class);
+                            startActivity(intent);
+
+                        }
 
                         // ...
                     }
