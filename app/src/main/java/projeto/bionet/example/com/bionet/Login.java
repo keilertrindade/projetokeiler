@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -68,33 +69,39 @@ public class Login extends AppCompatActivity {
         email = etEmail.getText().toString();
         senha = etSenha.getText().toString();
 
-        mAuth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            //String exp = task.getException().toString();
-                            Toast.makeText(Login.this, "Não logou",
-                                    Toast.LENGTH_SHORT).show();
+        if(TextUtils.isEmpty(email)) {
+            etEmail.setError("O campo Email deve ser preenchido!");
+            return;
+        }
+        else if (TextUtils.isEmpty(senha)){
+            etSenha.setError("O campo Senha deve ser preenchido!");
+        }
+        else {
 
-                           /* Intent intent = new Intent(Login.this,Login.class);
-                            startActivity(intent); */
+            mAuth.signInWithEmailAndPassword(email, senha)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+
+                            if (!task.isSuccessful()) {
+                                //String exp = task.getException().toString();
+                                Toast.makeText(Login.this, "Usuário ou Senha Inválidos",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                Intent intent = new Intent(Login.this, LobbyActivity.class);
+                                startActivity(intent);
+
+                            }
+
+                            // ...
                         }
-                        else{
-                            Toast.makeText(Login.this, "Bem Vindo!",
-                                    Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(Login.this,LobbyActivity.class);
-                            startActivity(intent);
-
-                        }
-
-                        // ...
-                    }
-                });
+                    });
+        }
     }
 
 
