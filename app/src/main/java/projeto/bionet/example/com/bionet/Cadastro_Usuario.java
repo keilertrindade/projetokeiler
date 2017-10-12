@@ -23,6 +23,7 @@ import static android.support.design.R.styleable.TextInputLayout;
 public class Cadastro_Usuario extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etBairro, etCidade, etEstado;
     private String email, senha, nome, snome, cpf, cep, rua, bairro, cidade, estado;
@@ -37,6 +38,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro__usuario);
         RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         etEmail = (EditText) findViewById(R.id.email);
         etSenha = (EditText) findViewById(R.id.password);
@@ -72,14 +74,14 @@ public class Cadastro_Usuario extends AppCompatActivity {
 
         email = etEmail.getText().toString().trim();
         senha = etSenha.getText().toString().trim();
-        nome = etNome.getText().toString().trim();
+       /* nome = etNome.getText().toString().trim();
         snome = etSnome.getText().toString().trim();
         cpf = etCpf.getText().toString().trim();
         cep = etCep.getText().toString().trim();
         rua = etRua.getText().toString().trim();
         bairro = etBairro.getText().toString().trim();
         cidade = etCidade.getText().toString().trim();
-        estado = etEstado.getText().toString().trim();
+        estado = etEstado.getText().toString().trim(); */
 
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -90,7 +92,12 @@ public class Cadastro_Usuario extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }else{
 
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            Toast.makeText(Cadastro_Usuario.this, "Usuário Criado com sucesso!",
+                                    Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(Cadastro_Usuario.this, Login.class);
+                            startActivity(intent);
+                          /*  FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                            // myRef.child("uid").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
                             myRef.child("cpf").setValue(cpf);
@@ -102,11 +109,13 @@ public class Cadastro_Usuario extends AppCompatActivity {
                             myRef.child("rua").setValue(rua);
                             myRef.child("bairro").setValue(bairro);
                             myRef.child("cidade").setValue(cidade);
-                            myRef.child("estado").setValue(estado);
+                            myRef.child("estado").setValue(estado); */
                         }
                     }
                 });
 
     }
 }
+
+
 
