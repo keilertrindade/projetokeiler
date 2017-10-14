@@ -21,7 +21,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +88,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
         });
     }
 
-    public void checarCampos(){
+    public void checarCampos(View v){
 
         email = etEmail.getText().toString().trim();
         senha = etSenha.getText().toString().trim();
@@ -94,26 +103,32 @@ public class Cadastro_Usuario extends AppCompatActivity {
 
         if(TextUtils.isEmpty(email)) {
             etEmail.setError("O campo Email deve ser preenchido!");
+            etEmail.requestFocus();
             return;
         }
         else if (TextUtils.isEmpty(senha)){
             etSenha.setError("O campo Senha deve ser preenchido!");
+            etSenha.requestFocus();
             return;
         }
         else if (TextUtils.isEmpty(nome)){
             etNome.setError("O campo Nome deve ser preenchido!");
+            etNome.requestFocus();
             return;
         }
         else if (TextUtils.isEmpty(snome)){
             etSnome.setError("O campo Sobrenome deve ser preenchido!");
+            etSnome.requestFocus();
             return;
         }
         else if (TextUtils.isEmpty(cpf) || cpf.length() < 11){
             etCpf.setError("O campo CPF deve ser preenchido corretamente!");
+            etCpf.requestFocus();
             return;
         }
         else if (TextUtils.isEmpty(cep) || cep.length() < 8){
             etCep.setError("O campo CEP deve ser preenchido!");
+            etCep.requestFocus();
             return;
         }
         // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
@@ -143,20 +158,6 @@ public class Cadastro_Usuario extends AppCompatActivity {
     // Talvez não precisa passar nada por parametro, Já que as variaveis são da activty.
     public void Cadastrar(/*String email, String senha, String nome, String snome, String cpf, String cep,
                           String rua, String num, String bairro, String cidade, String estado */){
-
-
-
-    /*    if(TextUtils.isEmpty(email) || TextUtils.isEmpty(senha) || TextUtils.isEmpty(nome) || TextUtils.isEmpty(snome)
-                || TextUtils.isEmpty(cpf) || TextUtils.isEmpty(cep)  || TextUtils.isEmpty(rua)  || TextUtils.isEmpty(bairro)
-                || TextUtils.isEmpty(cidade)  || TextUtils.isEmpty(estado)
-                ) {
-            Toast.makeText(Cadastro_Usuario.this, "Por Favor preencha todos os dados!",
-                    Toast.LENGTH_LONG).show();
-
-            return;
-        }
-        else { */
-
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -173,8 +174,6 @@ public class Cadastro_Usuario extends AppCompatActivity {
                         }
                     }
                 });
-        //}
-
     }
 
     public void salvarPerfil(){
@@ -197,6 +196,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
                             usuario.put("cpf", cpf);
                             usuario.put("cep", cep);
                             usuario.put("rua", rua);
+                            usuario.put("numero", num);
                             usuario.put("bairro", bairro);
                             usuario.put("cidade", cidade);
                             usuario.put("estado", estado);
@@ -210,11 +210,60 @@ public class Cadastro_Usuario extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public String getUrl(){
+        return "https://viacep.com.br/ws/"+cep+"/json/";
+    }
+
+    public void checarCep(View v){
+
+        cep = etCep.getText().toString().trim();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    URL url = new URL("https://viacep.com.br/ws/"+cep+"/json/");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
+
+                    StringBuilder jsonString = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        jsonString.append(line);
+                    }
+
+                    urlConnection.disconnect();
+
+                    String teste = jsonString.toString();
+
+                    // Aqui vamos utilizar a Biblioteca Gson para transformar o Json recebido em Objeto JAVA
+/* Instanciamos o objeto Gson e em seguida utilizamos o método fromJson() passando como parâmetro o Reader instanciado e o tipo do Objeto que será retornado. */
+                    Gson gson = new Gson();
+
+                    HashMap retorno = gson.fromJson(teste, HashMap.class);
+
+                    Toast.makeText(Cadastro_Usuario.this, teste,
+                            Toast.LENGTH_LONG).show();
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }).start();
 
 
 
 
     }
+
+
 
 }
 

@@ -168,10 +168,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
-                    android:text="Check"
-                    android:textStyle="bold"
+                    android:onClick="checarCep"
+                    android:text="Busca"
 
-                    />
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
