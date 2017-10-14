@@ -82,7 +82,7 @@ public class Login extends AppCompatActivity {
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                 if (!task.isSuccessful()) {
+                            if (!task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Usuário ou Senha Inválidos",
                                         Toast.LENGTH_SHORT).show();
                             } else {
