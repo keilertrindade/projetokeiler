@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "584546006082-b6377d9ghvqo5psdpcqjsps8kd007tbq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "projeto.bionet.example.com.bionet",
+            "certificate_hash": "1313654a2d356ba00d529b1cafeb52d2209e803f"
+          }
+        },
+        {
           "client_id": "584546006082-2f341jl64m93jg9opgeklcl4ong5ea87.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584546006082-2f341jl64m93jg9opgeklcl4ong5ea87.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

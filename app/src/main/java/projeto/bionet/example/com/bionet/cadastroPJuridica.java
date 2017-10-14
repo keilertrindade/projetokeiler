@@ -24,6 +24,7 @@ public class cadastroPJuridica extends AppCompatActivity {
                 if (checkedId == R.id.p_fisica) {
                     Intent intent = new Intent(cadastroPJuridica.this,Cadastro_Usuario.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.fadeout, R.anim.fadein);
                     finish();
                 }
 
