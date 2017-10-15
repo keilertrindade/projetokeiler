@@ -18,20 +18,25 @@
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Cadastro_Usuario">
+        <activity android:name=".Cadastro_Usuario"
+            android:label="Cadastro Pessoa Física">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".cadastroPJuridica">
+        <activity android:name=".cadastroPJuridica"
+            android:label="Cadastro Pessoa Jurídica">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LobbyActivity"
+            android:label="@string/title_activity_lobby"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
