@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
@@ -44,7 +45,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etNum, etBairro, etCidade, etEstado;
-    private String email, senha, nome, snome, cpf, cep, rua, num, bairro, cidade, estado;
+    private String email, senha, nome, snome, cpf, cep, rua, num, bairro, cidade, estado, teste;
+    private Address retornoCep;
 
 
     RadioGroup RGrupo;
@@ -58,6 +60,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
+        teste = "";
+
 
         etEmail = (EditText) findViewById(R.id.email);
         etSenha = (EditText) findViewById(R.id.password);
@@ -216,9 +220,54 @@ public class Cadastro_Usuario extends AppCompatActivity {
         return "https://viacep.com.br/ws/"+cep+"/json/";
     }
 
-    public void checarCep(View v){
+    public void checarCep(View v) throws Exception {
 
         cep = etCep.getText().toString().trim();
+        //requestCep();
+
+      /*   if (endereco != null){
+            //Gson gson = new Gson();
+            //Address endereco = gson.fromJson(retorno, Address.class);
+            etRua.setText(endereco.getLogradouro());
+
+        }
+
+
+
+       new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    URL url = new URL("https://viacep.com.br/ws/"+cep+"/json/");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
+
+                    StringBuilder jsonString = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        jsonString.append(line);
+                    }
+
+                    urlConnection.disconnect();
+                    String teste = jsonString.toString();
+                    Gson gson = new Gson();
+
+                    HashMap retorno = gson.fromJson(teste, HashMap.class);
+
+                    //return retorno;
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }).start();
+
+*/
+    }
+
+    public void requestCep() throws Exception {
 
 
         new Thread(new Runnable() {
@@ -238,19 +287,21 @@ public class Cadastro_Usuario extends AppCompatActivity {
                     }
 
                     urlConnection.disconnect();
-
-                    String teste = jsonString.toString();
-
-                    // Aqui vamos utilizar a Biblioteca Gson para transformar o Json recebido em Objeto JAVA
-/* Instanciamos o objeto Gson e em seguida utilizamos o método fromJson() passando como parâmetro o Reader instanciado e o tipo do Objeto que será retornado. */
+                    teste = jsonString.toString();
                     Gson gson = new Gson();
+                    retornoCep = gson.fromJson(teste, Address.class);
 
-                    HashMap retorno = gson.fromJson(teste, HashMap.class);
+                    if (teste != ""){
+                        etEmail.setText("Rua");
 
-                    Toast.makeText(Cadastro_Usuario.this, teste,
-                            Toast.LENGTH_LONG).show();
+                    }
 
 
+
+                    //HashMap retorno = gson.fromJson(teste, HashMap.class);
+
+
+                    //return retorno;
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -259,12 +310,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
         }).start();
 
 
-
-
     }
-
-
-
 }
 
 
