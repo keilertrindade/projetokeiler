@@ -168,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
-                    android:onClick="checarCep"
+                    android:onClick="requestCep"
                     android:text="Busca"
 
                     android:textStyle="bold" />

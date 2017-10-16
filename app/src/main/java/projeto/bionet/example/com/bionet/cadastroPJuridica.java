@@ -187,7 +187,7 @@ public class cadastroPJuridica extends AppCompatActivity {
                             usuario.put("tipo","Pessoa Juridíca");
 
                             db.collection("Profile").document(id).set(usuario);
-                            SystemClock
+
 
 
 

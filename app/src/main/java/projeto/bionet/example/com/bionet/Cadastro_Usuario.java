@@ -82,7 +82,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.p_juridica) {
-                    Intent intent = new Intent(Cadastro_Usuario.this,cadastroPJuridica.class);
+                    Intent intent = new Intent(Cadastro_Usuario.this, cadastroPJuridica.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fadeout, R.anim.fadein);
                     finish();
@@ -92,7 +92,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
         });
     }
 
-    public void checarCampos(View v){
+    public void checarCampos(View v) {
 
         email = etEmail.getText().toString().trim();
         senha = etSenha.getText().toString().trim();
@@ -105,54 +105,45 @@ public class Cadastro_Usuario extends AppCompatActivity {
         cidade = etCidade.getText().toString().trim();
         estado = etEstado.getText().toString().trim();
 
-        if(TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email)) {
             etEmail.setError("O campo Email deve ser preenchido!");
             etEmail.requestFocus();
             return;
-        }
-        else if (TextUtils.isEmpty(senha)){
+        } else if (TextUtils.isEmpty(senha)) {
             etSenha.setError("O campo Senha deve ser preenchido!");
             etSenha.requestFocus();
             return;
-        }
-        else if (TextUtils.isEmpty(nome)){
+        } else if (TextUtils.isEmpty(nome)) {
             etNome.setError("O campo Nome deve ser preenchido!");
             etNome.requestFocus();
             return;
-        }
-        else if (TextUtils.isEmpty(snome)){
+        } else if (TextUtils.isEmpty(snome)) {
             etSnome.setError("O campo Sobrenome deve ser preenchido!");
             etSnome.requestFocus();
             return;
-        }
-        else if (TextUtils.isEmpty(cpf) || cpf.length() < 11){
+        } else if (TextUtils.isEmpty(cpf) || cpf.length() < 11) {
             etCpf.setError("O campo CPF deve ser preenchido corretamente!");
             etCpf.requestFocus();
             return;
-        }
-        else if (TextUtils.isEmpty(cep) || cep.length() < 8){
+        } else if (TextUtils.isEmpty(cep) || cep.length() < 8) {
             etCep.setError("O campo CEP deve ser preenchido!");
             etCep.requestFocus();
             return;
         }
         // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
-        else if (TextUtils.isEmpty(rua)){
+        else if (TextUtils.isEmpty(rua)) {
             etRua.setError("O campo Rua deve ser preenchido!");
             return;
-        }
-        else if (TextUtils.isEmpty(bairro)){
+        } else if (TextUtils.isEmpty(bairro)) {
             etBairro.setError("O campo Bairro deve ser preenchido!");
             return;
-        }
-        else if (TextUtils.isEmpty(cidade)){
+        } else if (TextUtils.isEmpty(cidade)) {
             etCidade.setError("O campo Cidade deve ser preenchido!");
             return;
-        }
-        else if (TextUtils.isEmpty(estado)){
+        } else if (TextUtils.isEmpty(estado)) {
             etEstado.setError("O campo Estado deve ser preenchido!");
             return;
-        }
-        else{
+        } else {
             Cadastrar(/*email,senha,nome,snome,cpf,cep,rua,num,bairro,cidade,estado*/);
         }
 
@@ -161,7 +152,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
 
     // Talvez não precisa passar nada por parametro, Já que as variaveis são da activty.
     public void Cadastrar(/*String email, String senha, String nome, String snome, String cpf, String cep,
-                          String rua, String num, String bairro, String cidade, String estado */){
+                          String rua, String num, String bairro, String cidade, String estado */) {
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -180,7 +171,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
                 });
     }
 
-    public void salvarPerfil(){
+    public void salvarPerfil() {
 
         mAuth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -204,7 +195,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
                             usuario.put("bairro", bairro);
                             usuario.put("cidade", cidade);
                             usuario.put("estado", estado);
-                            usuario.put("tipo","Pessoa Fisica");
+                            usuario.put("tipo", "Pessoa Fisica");
 
                             db.collection("Profile").document(id).set(usuario);
 
@@ -216,66 +207,17 @@ public class Cadastro_Usuario extends AppCompatActivity {
                 });
     }
 
-    public String getUrl(){
-        return "https://viacep.com.br/ws/"+cep+"/json/";
-    }
 
-    public void checarCep(View v) throws Exception {
+    public void requestCep(View v) throws Exception { // Adicionar IF/Else para informar erro no CEP.
 
         cep = etCep.getText().toString().trim();
-        //requestCep();
-
-      /*   if (endereco != null){
-            //Gson gson = new Gson();
-            //Address endereco = gson.fromJson(retorno, Address.class);
-            etRua.setText(endereco.getLogradouro());
-
-        }
-
-
-
-       new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    URL url = new URL("https://viacep.com.br/ws/"+cep+"/json/");
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
-
-                    StringBuilder jsonString = new StringBuilder();
-                    String line;
-                    while ((line = r.readLine()) != null) {
-                        jsonString.append(line);
-                    }
-
-                    urlConnection.disconnect();
-                    String teste = jsonString.toString();
-                    Gson gson = new Gson();
-
-                    HashMap retorno = gson.fromJson(teste, HashMap.class);
-
-                    //return retorno;
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                }
-            }
-        }).start();
-
-*/
-    }
-
-    public void requestCep() throws Exception {
-
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 try {
-                    URL url = new URL("https://viacep.com.br/ws/"+cep+"/json/");
+                    URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                     BufferedReader r = new BufferedReader(new InputStreamReader(in));
@@ -291,24 +233,42 @@ public class Cadastro_Usuario extends AppCompatActivity {
                     Gson gson = new Gson();
                     retornoCep = gson.fromJson(teste, Address.class);
 
-                    if (teste != ""){
-                        etEmail.setText("Rua");
-
-                    }
-
-
-
-                    //HashMap retorno = gson.fromJson(teste, HashMap.class);
+                    etRua.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etRua.setText(retornoCep.getLogradouro());
+                        }
+                    });
 
 
-                    //return retorno;
+                    etBairro.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etBairro.setText(retornoCep.getBairro());
+                        }
+                    });
+
+                    etCidade.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etCidade.setText(retornoCep.getLocalidade());
+                        }
+                    });
+
+                    etEstado.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etEstado.setText(retornoCep.getUf());
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
+
 
                 }
             }
         }).start();
-
 
     }
 }

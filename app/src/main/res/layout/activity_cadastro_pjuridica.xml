@@ -155,6 +155,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:text="Busca"
+                    android:onClick="checarCep"
                     android:textStyle="bold"
 
                     />
