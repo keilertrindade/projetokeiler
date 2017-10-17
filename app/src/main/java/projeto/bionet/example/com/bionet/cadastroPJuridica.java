@@ -19,7 +19,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +37,8 @@ public class cadastroPJuridica extends AppCompatActivity {
     FirebaseFirestore db;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    private EditText etEmail, etSenha, etRazao, etCnpj, etCep, etRua, etNum, etBairro, etCidade, etEstado;
-    private String email, senha, razao, cnpj, cep, rua, num, bairro, cidade, estado, teste;
+    private EditText etEmail, etSenha, etRazao, etCnpj, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
+    private String email, senha, razao, cnpj, cep, rua, num, complemento, bairro, cidade, estado;
     private Address retornoCep;
 
     RadioGroup RGrupo;
@@ -45,7 +52,7 @@ public class cadastroPJuridica extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
-        teste = "";
+
 
 
         etEmail = (EditText) findViewById(R.id.email);
@@ -55,6 +62,7 @@ public class cadastroPJuridica extends AppCompatActivity {
         etCep = (EditText) findViewById(R.id.cep);
         etRua = (EditText) findViewById(R.id.rua);
         etNum = (EditText) findViewById(R.id.num);
+        etComplemento = (EditText) findViewById(R.id.complemento);
         etCidade = (EditText) findViewById(R.id.cidade);
         etBairro = (EditText) findViewById(R.id.bairro);
         etEstado = (EditText) findViewById(R.id.estado);
@@ -87,6 +95,7 @@ public class cadastroPJuridica extends AppCompatActivity {
         cep = etCep.getText().toString().trim();
         rua = etRua.getText().toString().trim();
         num = etNum.getText().toString().trim();
+        complemento = etComplemento.getText().toString().trim();
         bairro = etBairro.getText().toString().trim();
         cidade = etCidade.getText().toString().trim();
         estado = etEstado.getText().toString().trim();
@@ -117,10 +126,13 @@ public class cadastroPJuridica extends AppCompatActivity {
             etCep.requestFocus();
             return;
         }
-        // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
+        /* Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP*/
         else if (TextUtils.isEmpty(rua)){
             etRua.setError("O campo Rua deve ser preenchido!");
             return;
+        }
+        else if (TextUtils.isEmpty(num)){
+            etNum.setError("O campo número deve ser preenchido!");
         }
         else if (TextUtils.isEmpty(bairro)){
             etBairro.setError("O campo Bairro deve ser preenchido!");
@@ -137,7 +149,6 @@ public class cadastroPJuridica extends AppCompatActivity {
         else{
             Cadastrar(/*email,senha,nome,snome,cpf,cep,rua,num,bairro,cidade,estado*/);
         }
-
 
     }
 
@@ -181,6 +192,7 @@ public class cadastroPJuridica extends AppCompatActivity {
                             usuario.put("cep", cep);
                             usuario.put("rua", rua);
                             usuario.put("numero", num);
+                            usuario.put("complemento", complemento);
                             usuario.put("bairro", bairro);
                             usuario.put("cidade", cidade);
                             usuario.put("estado", estado);
@@ -190,13 +202,76 @@ public class cadastroPJuridica extends AppCompatActivity {
 
 
 
-
                             Intent intent = new Intent(cadastroPJuridica.this, Login.class);
                             startActivity(intent);
                             finish();
+                            // Talvez dar logout do usuário ativo para que ele possa realizar o login
+
                         }
                     }
                 });
+    }
+
+    public void requestCep(View v) throws Exception { // Adicionar IF/Else para informar erro no CEP.
+
+        cep = etCep.getText().toString().trim();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
+
+                    StringBuilder jsonString = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        jsonString.append(line);
+                    }
+
+                    urlConnection.disconnect();
+                    String teste = jsonString.toString();
+                    Gson gson = new Gson();
+                    retornoCep = gson.fromJson(teste, Address.class);
+
+                    etRua.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etRua.setText(retornoCep.getLogradouro());
+                        }
+                    });
+
+
+                    etBairro.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etBairro.setText(retornoCep.getBairro());
+                        }
+                    });
+
+                    etCidade.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etCidade.setText(retornoCep.getLocalidade());
+                        }
+                    });
+
+                    etEstado.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etEstado.setText(retornoCep.getUf());
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 }

@@ -44,8 +44,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
     FirebaseFirestore db;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etNum, etBairro, etCidade, etEstado;
-    private String email, senha, nome, snome, cpf, cep, rua, num, bairro, cidade, estado, teste;
+    private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
+    private String email, senha, nome, snome, cpf, cep, rua, num, complemento, bairro, cidade, estado, teste;
     private Address retornoCep;
 
 
@@ -71,6 +71,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
         etCep = (EditText) findViewById(R.id.cep);
         etRua = (EditText) findViewById(R.id.rua);
         etNum = (EditText) findViewById(R.id.num);
+        etComplemento = (EditText) findViewById(R.id.complemento);
         etCidade = (EditText) findViewById(R.id.cidade);
         etBairro = (EditText) findViewById(R.id.bairro);
         etEstado = (EditText) findViewById(R.id.estado);
@@ -101,6 +102,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
         cpf = etCpf.getText().toString().trim();
         cep = etCep.getText().toString().trim();
         rua = etRua.getText().toString().trim();
+        num = etNum.getText().toString().trim();
+        complemento = etComplemento.getText().toString().trim();
         bairro = etBairro.getText().toString().trim();
         cidade = etCidade.getText().toString().trim();
         estado = etEstado.getText().toString().trim();
@@ -134,13 +137,19 @@ public class Cadastro_Usuario extends AppCompatActivity {
         else if (TextUtils.isEmpty(rua)) {
             etRua.setError("O campo Rua deve ser preenchido!");
             return;
-        } else if (TextUtils.isEmpty(bairro)) {
+        }
+        else if (TextUtils.isEmpty(num)){
+            etNum.setError("O campo número deve ser preenchido!");
+        }
+        else if (TextUtils.isEmpty(bairro)) {
             etBairro.setError("O campo Bairro deve ser preenchido!");
             return;
-        } else if (TextUtils.isEmpty(cidade)) {
+        }
+        else if (TextUtils.isEmpty(cidade)) {
             etCidade.setError("O campo Cidade deve ser preenchido!");
             return;
-        } else if (TextUtils.isEmpty(estado)) {
+        }
+        else if (TextUtils.isEmpty(estado)) {
             etEstado.setError("O campo Estado deve ser preenchido!");
             return;
         } else {
@@ -192,12 +201,15 @@ public class Cadastro_Usuario extends AppCompatActivity {
                             usuario.put("cep", cep);
                             usuario.put("rua", rua);
                             usuario.put("numero", num);
+                            usuario.put("complemento", complemento);
                             usuario.put("bairro", bairro);
                             usuario.put("cidade", cidade);
                             usuario.put("estado", estado);
                             usuario.put("tipo", "Pessoa Fisica");
 
+
                             db.collection("Profile").document(id).set(usuario);
+
 
 
                             Intent intent = new Intent(Cadastro_Usuario.this, Login.class);

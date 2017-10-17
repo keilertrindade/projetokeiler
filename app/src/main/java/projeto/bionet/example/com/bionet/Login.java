@@ -86,7 +86,6 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this, "Usuário ou Senha Inválidos",
                                         Toast.LENGTH_SHORT).show();
                             } else {
-
                                 Intent intent = new Intent(Login.this, LobbyActivity.class);
                                 startActivity(intent);
 
