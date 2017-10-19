@@ -102,6 +102,9 @@ public class LobbyActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
+            Intent intent = new Intent(LobbyActivity.this, cadastroColeta.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

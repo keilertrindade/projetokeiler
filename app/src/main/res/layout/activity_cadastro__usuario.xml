@@ -15,7 +15,7 @@
     <!-- Login progress -->
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/cadastro_usuario_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
