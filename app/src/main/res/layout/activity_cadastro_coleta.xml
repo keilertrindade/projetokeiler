@@ -127,8 +127,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="25"
-                        android:prompt="Selecione o modo" />
-                    <!--  android:entries="@array/country_arrays"-->
+                       />
+                    <!--  android:entries="@array/country_arrays"
+                    android:prompt="Selecione o modo"-->
 
                 </TableRow>
 
@@ -147,7 +148,7 @@
                         android:id="@+id/spinnerEntrega"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
-/>
+                    />
                     <!--  android:entries="@array/country_arrays"
                       android:prompt="@string/country_prompt" -->
                 </TableRow>
