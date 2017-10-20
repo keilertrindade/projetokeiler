@@ -40,9 +40,9 @@ import static android.support.design.R.styleable.TextInputLayout;
 public class Cadastro_Usuario extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    //private DatabaseReference mDatabase;
     FirebaseFirestore db;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+   // private FirebaseAuth.AuthStateListener mAuthListener;
 
     private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
     private String email, senha, nome, snome, cpf, cep, rua, num, complemento, bairro, cidade, estado, teste;
@@ -58,7 +58,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro__usuario);
         RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+       // mDatabase = FirebaseDatabase.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
         teste = "";
 
