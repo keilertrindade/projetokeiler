@@ -26,6 +26,17 @@
             android:orientation="vertical">
             <!-- android:background="@drawable/border" -->
 
+            <Button
+                android:id="@+id/botaoImagemMaterial"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:onClick="carregarImagem"
+                android:text="Carregar Imagem"
+                android:textColor="#6b6b6b" />
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,36 +45,50 @@
 
                 <TableRow
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent">
-
-                    <TextView android:id="@+id/txMaterial"
+                    android:layout_width="match_parent"
+                    >
+                    <TextView android:id="@+id/txInfoMaterial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Material:"/>
-
-                    <Spinner
-                        android:id="@+id/spinnerMaterial"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                      <!--  android:entries="@array/country_arrays"
-                        android:prompt="@string/country_prompt" -->
+                        android:text="Informações de Material:"
+                        android:textColor="#2b2b2b"
+                        />
                 </TableRow>
 
                 <TableRow
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    >
+
+                    <TextView android:id="@+id/txMaterial"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:text="Material:"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerMaterial"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        />
+                    <!--  android:entries="@array/country_arrays"
+                      android:prompt="@string/country_prompt" -->
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="30dp"
+                    android:layout_width="30dp"
                     android:layout_marginTop="5dp">
 
                     <TextView android:id="@+id/txQuantidade"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
                         android:text="Quantidade:"/>
 
                     <EditText
                         android:id="@+id/etQuantidade"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
+                        android:layout_height="25dp" />
                 </TableRow>
 
                 <TableRow
@@ -73,13 +98,16 @@
 
                     <TextView android:id="@+id/txUnidade"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25"
                         android:text="Medida:"/>
 
                     <Spinner
                         android:id="@+id/spinnerUnidade"
-                        android:layout_width="260dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="75"
+                        />
                     <!--  android:entries="@array/country_arrays"
                       android:prompt="@string/country_prompt" -->
                 </TableRow>
@@ -96,10 +124,12 @@
 
                     <Spinner
                         android:id="@+id/spinnerModalidade"
-                        android:layout_width="260dp"
-                        android:layout_height="wrap_content"/>
-                    <!--  android:entries="@array/country_arrays"
-                      android:prompt="@string/country_prompt" -->
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25"
+                        android:prompt="Selecione o modo" />
+                    <!--  android:entries="@array/country_arrays"-->
+
                 </TableRow>
 
                 <TableRow
@@ -107,15 +137,17 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp">
 
-                    <TextView android:id="@+id/txEntrega"
+                    <TextView
+                        android:id="@+id/txEntrega"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quantidade:"/>
+                        android:layout_height="match_parent"
+                        android:text="Entrega:" />
 
                     <Spinner
                         android:id="@+id/spinnerEntrega"
-                        android:layout_width="260dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+/>
                     <!--  android:entries="@array/country_arrays"
                       android:prompt="@string/country_prompt" -->
                 </TableRow>
@@ -124,19 +156,41 @@
                 <TableRow
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="15dp">
-
-                    <CheckBox android:id="@+id/checkboxDinheiro"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="100"
+                    >
+                    <TextView android:id="@+id/txPagamento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Formas de Pagamento:"
+                        android:textColor="#2b2b2b"
+                        />
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="100"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/checkboxDinheiro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Dinheiro"
+                        android:textColor="#6b6b6b"
                         />
 
-                    <CheckBox android:id="@+id/checkboxDebito"
-                        android:layout_width="wrap_content"
+                    <CheckBox
+                        android:id="@+id/checkboxDebito"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Débito"
-                        />
+                        android:textColor="#6b6b6b" />
 
                 </TableRow>
 
@@ -146,17 +200,36 @@
                     android:layout_marginTop="5dp">
 
                     <CheckBox android:id="@+id/checkboxCredito"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Crédito"
+                        android:textColor="#6b6b6b"
                         />
 
                     <CheckBox android:id="@+id/checkboxMercadoPago"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Mercado Pago"
+                        android:textColor="#6b6b6b"
                         />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="100"
+                    >
+
+                    <TextView
+                        android:id="@+id/txInfoEndereço"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Informações de Endereço:"
+                        android:textColor="#2b2b2b" />
                 </TableRow>
 
 
