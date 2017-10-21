@@ -11,6 +11,7 @@ public class PessoaFisica {
     private String nome;
     private String sobrenome;
     private String cpf;
+
     private String cep;
     private String rua;
     private String bairro;
