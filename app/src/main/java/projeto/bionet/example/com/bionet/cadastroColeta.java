@@ -162,7 +162,7 @@ public class cadastroColeta extends AppCompatActivity {
         coleta.put("proprietario", user.getUid());
 
 
-        db.collection("Coleta").document(user.getUid()).set(coleta);
+        db.collection("Coleta").add(coleta);
 
 
 
