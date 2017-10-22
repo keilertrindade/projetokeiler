@@ -31,6 +31,7 @@ public class LobbyActivity extends AppCompatActivity
     private TextView tvNome, tvEmail;
     FirebaseUser user;
     String nome;
+    DocumentReference profileRef;
 
 
     @Override
@@ -39,9 +40,9 @@ public class LobbyActivity extends AppCompatActivity
         FirebaseFirestore db;
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        DocumentReference profileRef;
 
-        tvNome = (TextView) findViewById(R.id.tvNome);
+
+       /* tvNome = (TextView) findViewById(R.id.tvNome);
         tvEmail = (TextView) findViewById(R.id.tvEmail);
 
         profileRef = db.collection("Profile").document(user.getUid());
@@ -68,7 +69,7 @@ public class LobbyActivity extends AppCompatActivity
                 }
             }
         });
-
+*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
