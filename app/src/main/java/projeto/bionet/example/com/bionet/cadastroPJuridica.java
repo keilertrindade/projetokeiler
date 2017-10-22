@@ -105,8 +105,8 @@ public class cadastroPJuridica extends AppCompatActivity {
             etEmail.requestFocus();
             return;
         }
-        else if (TextUtils.isEmpty(senha)){
-            etSenha.setError("O campo Senha deve ser preenchido!");
+        else if (TextUtils.isEmpty(senha) || senha.length() < 6) {
+            etSenha.setError("O campo Senha deve ser preenchido com no mínimo 6 caracteres!");
             etSenha.requestFocus();
             return;
         }
