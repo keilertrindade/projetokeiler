@@ -21,9 +21,43 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="Material">
-        <item>Material 1</item>
-        <item>Material 2</item>
-        <item>Material 3</item>
+        <item>Embalagens Pet</item>
+        <item>Canos e Tubos de PVC</item>
+        <item>Embalagens de produto de limpeza</item>
+        <item>Sacos/Sacolas</item>
+        <item>Plástico em Geral</item>
+        <item>Isopor</item>
+        <item>Espuma</item>
+        <item>Jornais e Revistas</item>
+        <item>Embalagens longa vida</item>
+        <item>Vidro</item>
+        <item>Latas</item>
+        <item>Ferragens</item>
+        <item>Arames</item>
+        <item>Pregos</item>
+        <item>Cobre</item>
+        <item>Metais em Geral</item>
+        <item>Outros</item>
+    </string-array>
+
+    <string-array name="Medida">
+        <item>Tonelada</item>
+        <item>Kilo</item>
+        <item>Grama</item>
+        <item>Litro</item>
+        <item>Metro</item>
+        <item>Metro Cúbico</item>
+        <item>Quilômetro</item>
+    </string-array>
+
+    <string-array name="Modalidade">
+        <item>Doação</item>
+        <item>Venda</item>
+    </string-array>
+
+    <string-array name="Entrega">
+        <item>Sim</item>
+        <item>Não</item>
     </string-array>
 
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +21,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,16 +39,14 @@ public class cadastroColeta extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseFirestore db;
     FirebaseUser user;
+    Address retornoCep;
 
-    private EditText etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
+    private EditText etQuantidade, etValor, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
     private Spinner spMaterial, spMedida, spModalidade, spEntrega;
     private CheckBox cbDinheiro, cbCredito, cbDebito, cbMercadoPago;
-    private String material, medida, modalidade, cep, rua, num, complemento, bairro, cidade, estado;
-    private Float quantidade;
-    private Boolean entrega, dinheiro, debito, credito, mercadoPago;
+    private String material, medida, modalidade, quantidade, entrega, valor, cep, rua, num, complemento, bairro, cidade, estado, teste;
+    private Boolean dinheiro, debito, credito, mercadoPago;
     DocumentReference profileRef;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +67,8 @@ public class cadastroColeta extends AppCompatActivity {
         spMedida = (Spinner) findViewById(R.id.spinnerUnidade);
         spModalidade = (Spinner) findViewById(R.id.spinnerModalidade);
         spEntrega = (Spinner) findViewById(R.id.spinnerEntrega);
-
-
+        etValor = (EditText) findViewById(R.id.etValor);
+        etQuantidade = (EditText) findViewById(R.id.etQuantidade);
 
         etCep = (EditText) findViewById(R.id.cep);
         etRua = (EditText) findViewById(R.id.rua);
@@ -96,12 +104,15 @@ public class cadastroColeta extends AppCompatActivity {
 
     }
 
-
     public void checarCampos(View v) {
 
         material = spMaterial.getSelectedItem().toString();
         medida = spMedida.getSelectedItem().toString();
         modalidade = spModalidade.getSelectedItem().toString();
+        quantidade = etQuantidade.getText().toString();
+        entrega = spEntrega.getSelectedItem().toString();
+        valor = etValor.getText().toString();
+
         cep = etCep.getText().toString().trim();
         rua = etRua.getText().toString().trim();
         num = etNum.getText().toString().trim();
@@ -110,13 +121,60 @@ public class cadastroColeta extends AppCompatActivity {
         cidade = etCidade.getText().toString().trim();
         estado = etEstado.getText().toString().trim();
 
+        if (TextUtils.isEmpty(quantidade)) {
+            etQuantidade.setError("Preencha a quantidade do Material");
+            etQuantidade.requestFocus();
+            return;
+        }
+        else{
+            checarPagamento();
+        }
+
+    }
+
+    public void cadastrarColeta() {
+
+        Map<String, Object> coleta = new HashMap<>();
+        coleta.put("material", material);
+        coleta.put("medida", medida);
+        coleta.put("modalidade", modalidade);
+        coleta.put("quantidade", quantidade);
+        coleta.put("entrega", entrega);
+        coleta.put("cep", cep);
+        coleta.put("rua", rua);
+        coleta.put("numero", num);
+        coleta.put("complemento", complemento);
+        coleta.put("bairro", bairro);
+        coleta.put("cidade", cidade);
+        coleta.put("estado", estado);
+        coleta.put("proprietario", user.getUid());
+
+        if (modalidade.equalsIgnoreCase("Venda")){
+            coleta.put("valor", valor);
+            coleta.put("dinheiro", dinheiro);
+            coleta.put("debito", debito);
+            coleta.put("credito", credito);
+            coleta.put("mercado pago", mercadoPago);
+        }
+
+        db.collection("Coleta").add(coleta);
+
+        Toast.makeText(cadastroColeta.this, "Material Cadastrado com Sucesso!",
+                Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(cadastroColeta.this, LobbyActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+    public void checarEndereco(){
 
         if (TextUtils.isEmpty(cep) || cep.length() < 8) {
             etCep.setError("O campo CEP deve ser preenchido!");
             etCep.requestFocus();
             return;
         }
-        // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
         else if (TextUtils.isEmpty(rua)) {
             etRua.setError("O campo Rua deve ser preenchido!");
             return;
@@ -135,41 +193,127 @@ public class cadastroColeta extends AppCompatActivity {
         else if (TextUtils.isEmpty(estado)) {
             etEstado.setError("O campo Estado deve ser preenchido!");
             return;
-        }else if(!cbDebito.isChecked() || !cbCredito.isChecked() || !cbDinheiro.isChecked() || !cbMercadoPago.isChecked()){ // Fazer uma outra função, pois tenho que verificar se é doação ou coleta.
-            Toast.makeText(cadastroColeta.this, "Por Favor selecione u",
-                    Toast.LENGTH_LONG).show();
         }
         else {
-            cadastrarColeta(/*email,senha,nome,snome,cpf,cep,rua,num,bairro,cidade,estado */);
+            cadastrarColeta();
         }
     }
 
-    public void cadastrarColeta() {
+    public void checarPagamento(){
 
+        if (modalidade.equalsIgnoreCase("Venda")) {
 
-        Map<String, Object> coleta = new HashMap<>();
-        coleta.put("material", material);
-        coleta.put("medida", medida);
-        coleta.put("modalidade", modalidade);
-        coleta.put("quantidade", quantidade);
-        coleta.put("cep", cep);
-        coleta.put("rua", rua);
-        coleta.put("numero", num);
-        coleta.put("complemento", complemento);
-        coleta.put("bairro", bairro);
-        coleta.put("cidade", cidade);
-        coleta.put("estado", estado);
-        coleta.put("proprietario", user.getUid());
-
-
-        db.collection("Coleta").add(coleta);
-
-
-
-        Intent intent = new Intent(cadastroColeta.this, LobbyActivity.class);
-        startActivity(intent);
+            if (!cbDebito.isChecked() && !cbCredito.isChecked() && !cbDinheiro.isChecked() && !cbMercadoPago.isChecked()) { // Fazer uma outra função, pois tenho que verificar se é doação ou coleta.*/
+                Toast.makeText(cadastroColeta.this, "Por Favor selecione uma forma de pagamento",
+                        Toast.LENGTH_LONG).show();
+            }
+            else if (TextUtils.isEmpty(valor)){
+                etValor.setError("Preencha o Valor!");
+                etValor.requestFocus();
+                return;
+            }
+            else {
+                formaPagamento();
+            }
+        }
+        else{
+            checarEndereco();
+        }
     }
 
+    public void formaPagamento(){
+
+        if(cbDinheiro.isChecked()){
+            dinheiro = true;
+        }
+        else{
+            dinheiro = false;
+        }
+
+        if(cbDebito.isChecked()){
+            debito = true;
+        }
+        else{
+            debito = false;
+        }
+
+        if(cbCredito.isChecked()){
+            credito = true;
+        }
+        else{
+            credito = false;
+        }
+
+        if(cbMercadoPago.isChecked()){
+            mercadoPago = true;
+        }
+        else{
+            mercadoPago = false;
+        }
+
+        checarEndereco();
+    }
+
+    public void requestCep(View v) throws Exception {
+
+        cep = etCep.getText().toString().trim();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
+
+                    StringBuilder jsonString = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        jsonString.append(line);
+                    }
+
+                    urlConnection.disconnect();
+                    teste = jsonString.toString();
+                    Gson gson = new Gson();
+                    retornoCep = gson.fromJson(teste, Address.class);
+
+                    etRua.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etRua.setText(retornoCep.getLogradouro());
+                        }
+                    });
+
+                    etBairro.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etBairro.setText(retornoCep.getBairro());
+                        }
+                    });
+
+                    etCidade.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etCidade.setText(retornoCep.getLocalidade());
+                        }
+                    });
+
+                    etEstado.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            etEstado.setText(retornoCep.getUf());
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
 
 }
 

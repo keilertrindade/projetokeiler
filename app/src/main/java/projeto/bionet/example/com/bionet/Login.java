@@ -38,20 +38,14 @@ public class Login extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.email);
         botao = (Button) findViewById(R.id.botao_registro);
 
-
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(getApplicationContext(), "Bem Vindo " + user.getDisplayName() + "!",
-                            Toast.LENGTH_LONG).show();
                     Intent it = new Intent(getApplicationContext(),LobbyActivity.class);
                     startActivity(it);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Sem Usuários Conectados!",
-                            Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         };
@@ -90,8 +84,6 @@ public class Login extends AppCompatActivity {
                                 startActivity(intent);
 
                             }
-
-                            // ...
                         }
                     });
         }

@@ -220,7 +220,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
     }
 
 
-    public void requestCep(View v) throws Exception { // Adicionar IF/Else para informar erro no CEP.
+    public void requestCep(View v) throws Exception {
 
         cep = etCep.getText().toString().trim();
 

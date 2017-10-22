@@ -279,6 +279,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Estado"
+                    android:maxLength="2"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:singleLine="true" />
