@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="projeto.bionet.example.com.bionet.LobbyActivity"
-    tools:showIn="@layout/app_bar_lobby">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="projeto.bionet.example.com.bionet.LobbyActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ViewFlipper
+            android:id="@+id/bckgrndViewFlipper1"
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:autoStart="true"
+            android:layout_marginTop="57dp"
+            >
+            <ImageView
+                android:id="@+id/bckgrndImageView1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture1"
+                android:onClick="click1"
+                android:transitionName="transicao1"
+                />
+            <ImageView
+                android:id="@+id/bckgrndImageView2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture2"
+                android:onClick="click2"
+                android:transitionName="transicao2"/>
+            <ImageView
+                android:id="@+id/bckgrndImageView3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture3"
+                android:onClick="click3"
+                android:transitionName="transicao3"/>
+
+
+        </ViewFlipper>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+

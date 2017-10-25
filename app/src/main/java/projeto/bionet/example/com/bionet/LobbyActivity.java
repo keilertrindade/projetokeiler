@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -85,7 +86,8 @@ public class LobbyActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        final ViewFlipper MyViewFlipper = (ViewFlipper)findViewById(R.id.bckgrndViewFlipper1);
+        MyViewFlipper.setFlipInterval(2500);
 
         Toast.makeText(LobbyActivity.this, "Bem Vindo ao BioNet!",
                 Toast.LENGTH_LONG).show();
