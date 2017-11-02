@@ -44,6 +44,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Calendar;
 
 public class cadastroColeta extends AppCompatActivity {
 
@@ -69,6 +70,8 @@ public class cadastroColeta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_coleta);
+
+        selectedImage = Uri.parse("android.resource://projeto.bionet.example.com.bionet/drawable/bionet");
 
         cbDinheiro = (CheckBox) findViewById(R.id.checkboxDinheiro);
         cbCredito = (CheckBox) findViewById(R.id.checkboxCredito);
@@ -167,6 +170,7 @@ public class cadastroColeta extends AppCompatActivity {
         coleta.put("cidade", cidade);
         coleta.put("estado", estado);
         coleta.put("proprietario", user.getUid());
+        coleta.put("data", Calendar.getInstance().getTime());
 
         if (modalidade.equalsIgnoreCase("Venda")){
             coleta.put("valor", valor);
@@ -178,23 +182,8 @@ public class cadastroColeta extends AppCompatActivity {
 
         String randId = getSaltString(); // Adicionar verificação de id já existente.
 
- //       imageRef = storageRef.child("coleta/"+randId+".jpg");
-
         db.collection("Coleta").document(randId).set(coleta);
         uploadImage(randId);
-
-  //      uploadTask = imageRef.putFile(selectedImage);
-
-
-
-
-
-        Toast.makeText(cadastroColeta.this,"Material Cadastrado com Sucesso!",
-                Toast.LENGTH_LONG).show();
-
-        Intent intent = new Intent(cadastroColeta.this, LobbyActivity.class);
-        startActivity(intent);
-        finish();
     }
 
 
@@ -372,9 +361,27 @@ public class cadastroColeta extends AppCompatActivity {
             salt.append(SALTCHARS.charAt(index));
         }
         String saltStr = salt.toString();
-        return saltStr;
 
+       /* saltStr = "6bmzGwUubnXDPjvURWWf";
+
+         while (checkExist(saltStr)){
+            saltStr = getSaltString();
+        }*/
+
+        return saltStr;
     }
+
+  /*  protected Boolean checkExist (String saltStr){
+        Boolean exist = null ;
+        DocumentReference docRef = db.collection("Coleta").document(saltStr);
+
+        if (docRef.get().isSuccessful()){
+            exist = true;
+        } else {
+            exist = false;
+        }
+        return exist;
+    } */
 
     public void uploadImage(String randId) {
         //create reference to images folder and assing a name to the file that will be uploaded
@@ -409,10 +416,18 @@ public class cadastroColeta extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                Toast.makeText(cadastroColeta.this,"Upload successful",Toast.LENGTH_SHORT).show();
+                //taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                //Toast.makeText(cadastroColeta.this,"Upload successful",Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
+
+                Toast.makeText(cadastroColeta.this,"Material Cadastrado com Sucesso!",
+                        Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(cadastroColeta.this, LobbyActivity.class);
+                startActivity(intent);
+                finish();
+
                 //showing the uploaded image in ImageView using the download url
                // Picasso.with(cadastroColeta.this).load(downloadUrl).into(imageView);
             }
