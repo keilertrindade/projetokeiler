@@ -7,13 +7,19 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Noticias" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/cadastromaterial"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Cadastro Material" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Pesquisa Material" />
+
+        <item
+            android:id="@+id/nav_meusmateriais"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Meus Materiais" />
+
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

@@ -50,19 +50,21 @@ public class cadastroColeta extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private static final int SELECT_PHOTO = 100;
-    Uri selectedImage;
-    FirebaseFirestore db;
-    FirebaseStorage storage;
-    StorageReference storageRef,imageRef;
-    ProgressDialog progressDialog;
-    UploadTask uploadTask;
-    FirebaseUser user;
-    Address retornoCep;
+    private Uri selectedImage;
+    private FirebaseFirestore db;
+    private FirebaseStorage storage;
+    private StorageReference storageRef,imageRef;
+    private ProgressDialog progressDialog;
+    private UploadTask uploadTask;
+    private FirebaseUser user;
+    private Address retornoCep;
+    private Coleta coleta;
 
     private EditText etQuantidade, etValor, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
     private Spinner spMaterial, spMedida, spModalidade, spEntrega;
     private CheckBox cbDinheiro, cbCredito, cbDebito, cbMercadoPago;
     private String material, medida, modalidade, quantidade, entrega, valor, cep, rua, num, complemento, bairro, cidade, estado, teste;
+    // private Float valor, quantidade;
     private Boolean dinheiro, debito, credito, mercadoPago;
     DocumentReference profileRef;
 
@@ -155,32 +157,23 @@ public class cadastroColeta extends AppCompatActivity {
     }
 
     public void cadastrarColeta() {
-
-        Map<String, Object> coleta = new HashMap<>();
-        coleta.put("material", material);
-        coleta.put("medida", medida);
-        coleta.put("modalidade", modalidade);
-        coleta.put("quantidade", quantidade);
-        coleta.put("entrega", entrega);
-        coleta.put("cep", cep);
-        coleta.put("rua", rua);
-        coleta.put("numero", num);
-        coleta.put("complemento", complemento);
-        coleta.put("bairro", bairro);
-        coleta.put("cidade", cidade);
-        coleta.put("estado", estado);
-        coleta.put("proprietario", user.getUid());
-        coleta.put("data", Calendar.getInstance().getTime());
+        Float qtd = Float.valueOf(quantidade);
 
         if (modalidade.equalsIgnoreCase("Venda")){
-            coleta.put("valor", valor);
-            coleta.put("dinheiro", dinheiro);
-            coleta.put("debito", debito);
-            coleta.put("credito", credito);
-            coleta.put("mercado pago", mercadoPago);
+
+            Float vlr = Float.valueOf(valor);
+
+            coleta = new Coleta(material, medida, modalidade, qtd,entrega,
+                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),
+                    vlr, dinheiro, debito, credito, mercadoPago);
+        }
+        else {
+            coleta = new Coleta(material, medida, modalidade, qtd, entrega,
+                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime()
+                    );
         }
 
-        String randId = getSaltString(); // Adicionar verificação de id já existente.
+        String randId = getSaltString(); // Adicionar verificação de id já existente, posso chegar se documento existe na coleção.
 
         db.collection("Coleta").document(randId).set(coleta);
         uploadImage(randId);
@@ -429,7 +422,7 @@ public class cadastroColeta extends AppCompatActivity {
                 finish();
 
                 //showing the uploaded image in ImageView using the download url
-               // Picasso.with(cadastroColeta.this).load(downloadUrl).into(imageView);
+                // Picasso.with(cadastroColeta.this).load(downloadUrl).into(imageView);
             }
         });
     }
