@@ -52,13 +52,13 @@ public class AdapterLista extends BaseAdapter {
         ImageView imagem = (ImageView)
                 view.findViewById(R.id.imagemColeta);
 
-        String titulo = coleta.getModalidade()+": "+coleta.getQuantidade()+" "+coleta.getMedida()+" "+coleta.getMaterial();
+        String titulo = coleta.getModalidade()+": "+coleta.getQuantidade()+" "+coleta.getMedida()+"(s) \n"+coleta.getMaterial();
 
         if (coleta.getModalidade().equalsIgnoreCase("Venda")){
-            desc = "R$: "+coleta.getValor()+". Entrega: "+coleta.getEntrega()+" Localidade: "
+            desc = "R$: "+coleta.getValor()+" Reais\nEntrega: "+coleta.getEntrega()+"\nLocalidade: "
                     +coleta.getCidade()+"/"+coleta.getEstado();
         }else{
-            desc = "Entrega: "+coleta.getEntrega()+" Localidade: "
+            desc = "Entrega: "+coleta.getEntrega()+"\nLocalidade: "
                     +coleta.getCidade()+"/"+coleta.getEstado();
         }
 

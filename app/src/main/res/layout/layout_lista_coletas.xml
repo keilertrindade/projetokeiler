@@ -6,27 +6,29 @@
 
     <ImageView
         android:id="@+id/imagemColeta"
-        android:layout_width="130dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        >
 
         <TextView
             android:id="@+id/tituloColeta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Titulo"
-            android:textSize="30dp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/descricaoColeta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Descriçao"
-            android:textSize="20dp" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 

@@ -23,7 +23,8 @@ public class Coleta {
     private String cidade;
     private String estado;
 
-    private String propritario;
+    private String proprietario;
+    private String status;
     private Date data;
 
     private Float valor;
@@ -33,13 +34,11 @@ public class Coleta {
     private Boolean credito;
     private Boolean mercadopago;
 
-    public Coleta(){
-
-    }
+    public Coleta(){}
 
     public Coleta(String material, String medida, String modalidade, Float quantidade, String entrega,
                   String cep, String rua, String num, String complemento, String bairro, String cidade,
-                  String estado, String propritario, Date data){
+                  String estado, String proprietario, Date data, String status){
 
         this.material = material;
         this.medida = medida;
@@ -55,7 +54,8 @@ public class Coleta {
         this.cidade = cidade;
         this.estado = estado;
 
-        this.propritario = propritario;
+        this.proprietario = proprietario;
+        this.status = status;
         this.data = data;
 
 
@@ -64,7 +64,7 @@ public class Coleta {
 
     public Coleta(String material, String medida, String modalidade, Float quantidade, String entrega,
                   String cep, String rua, String num, String complemento, String bairro, String cidade,
-                  String estado, String propritario, Date data, Float valor, Boolean dinheiro, Boolean debito,
+                  String estado, String proprietario, Date data, String status, Float valor, Boolean dinheiro, Boolean debito,
                   Boolean credito, Boolean mercadopago){
 
         this.material = material;
@@ -81,7 +81,8 @@ public class Coleta {
         this.cidade = cidade;
         this.estado = estado;
 
-        this.propritario = propritario;
+        this.proprietario = proprietario;
+        this.status = status;
         this.data = data;
 
         this.valor = valor;
@@ -188,13 +189,7 @@ public class Coleta {
         this.estado = estado;
     }
 
-    public String getPropritario() {
-        return propritario;
-    }
 
-    public void setPropritario(String propritario) {
-        this.propritario = propritario;
-    }
 
     public Date getData() {
         return data;
@@ -242,5 +237,21 @@ public class Coleta {
 
     public void setMercadopago(Boolean mercadopago) {
         this.mercadopago = mercadopago;
+    }
+
+    public String getProprietario() {
+        return proprietario;
+    }
+
+    public void setProprietario(String proprietario) {
+        this.proprietario = proprietario;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

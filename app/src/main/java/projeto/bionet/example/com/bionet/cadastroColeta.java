@@ -158,18 +158,19 @@ public class cadastroColeta extends AppCompatActivity {
 
     public void cadastrarColeta() {
         Float qtd = Float.valueOf(quantidade);
+        String status = "Aberto";
 
         if (modalidade.equalsIgnoreCase("Venda")){
 
             Float vlr = Float.valueOf(valor);
 
             coleta = new Coleta(material, medida, modalidade, qtd,entrega,
-                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),
+                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),status,
                     vlr, dinheiro, debito, credito, mercadoPago);
         }
         else {
             coleta = new Coleta(material, medida, modalidade, qtd, entrega,
-                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime()
+                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),status
                     );
         }
 
