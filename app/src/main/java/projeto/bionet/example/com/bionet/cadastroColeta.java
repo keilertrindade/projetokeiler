@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
@@ -47,6 +49,7 @@ public class cadastroColeta extends AppCompatActivity {
     private String material, medida, modalidade, quantidade, entrega, valor, cep, rua, num, complemento, bairro, cidade, estado, teste;
     private Boolean dinheiro, debito, credito, mercadoPago;
     DocumentReference profileRef;
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class cadastroColeta extends AppCompatActivity {
         cbDebito = (CheckBox) findViewById(R.id.checkboxDebito);
         cbMercadoPago = (CheckBox) findViewById(R.id.checkboxMercadoPago);
 
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
