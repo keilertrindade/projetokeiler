@@ -140,7 +140,7 @@ public class LobbyActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.cadastromaterial) {
 
             Intent intent = new Intent(LobbyActivity.this, cadastroColeta.class);
             startActivity(intent);
@@ -153,6 +153,9 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_meusmateriais){
+            Intent intent = new Intent(LobbyActivity.this, meusMateriais.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
