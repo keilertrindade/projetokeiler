@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26"
+    buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "projeto.bionet.example.com.bionet"
         minSdkVersion 21
@@ -53,8 +53,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:11.4.2'
     compile 'ru.egslava:MaskedEditText:1.0.5'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 

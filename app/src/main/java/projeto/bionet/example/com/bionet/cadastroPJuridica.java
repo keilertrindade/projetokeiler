@@ -53,8 +53,6 @@ public class cadastroPJuridica extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
 
-
-
         etEmail = (EditText) findViewById(R.id.email);
         etSenha = (EditText) findViewById(R.id.password);
         etRazao = (EditText) findViewById(R.id.razao);
@@ -147,13 +145,12 @@ public class cadastroPJuridica extends AppCompatActivity {
             return;
         }
         else{
-            Cadastrar(/*email,senha,nome,snome,cpf,cep,rua,num,bairro,cidade,estado*/);
+            Cadastrar();
         }
 
     }
 
-    public void Cadastrar(/*String email, String senha, String nome, String snome, String cpf, String cep,
-                          String rua, String num, String bairro, String cidade, String estado */){
+    public void Cadastrar(){
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
