@@ -44,7 +44,6 @@ public class meusMateriais extends AppCompatActivity {
     DocumentReference coletaRef;
     ArrayList<Coleta> coletaArray;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +52,6 @@ public class meusMateriais extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<Coleta> coletaArray = new ArrayList<>();
-
-
-
 
         db.collection("Coleta")
                 .whereEqualTo("proprietario", user.getUid())
@@ -81,8 +77,6 @@ public class meusMateriais extends AppCompatActivity {
                     }
                 });
 
-
-
     }
 
     private void gerarLista(ArrayList array){
@@ -92,7 +86,4 @@ public class meusMateriais extends AppCompatActivity {
         lista.setAdapter(adapter);
 
     }
-
-
-
 }
