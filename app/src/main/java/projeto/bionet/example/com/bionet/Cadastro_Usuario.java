@@ -40,9 +40,7 @@ import static android.support.design.R.styleable.TextInputLayout;
 public class Cadastro_Usuario extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    //private DatabaseReference mDatabase;
     FirebaseFirestore db;
-   // private FirebaseAuth.AuthStateListener mAuthListener;
 
     private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
     private String email, senha, nome, snome, cpf, cep, rua, num, complemento, bairro, cidade, estado, teste;

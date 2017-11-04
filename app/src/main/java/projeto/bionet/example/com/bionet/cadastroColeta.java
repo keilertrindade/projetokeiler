@@ -64,7 +64,6 @@ public class cadastroColeta extends AppCompatActivity {
     private Spinner spMaterial, spMedida, spModalidade, spEntrega;
     private CheckBox cbDinheiro, cbCredito, cbDebito, cbMercadoPago;
     private String material, medida, modalidade, quantidade, entrega, valor, cep, rua, num, complemento, bairro, cidade, estado, teste;
-    // private Float valor, quantidade;
     private Boolean dinheiro, debito, credito, mercadoPago;
     DocumentReference profileRef;
 
@@ -158,7 +157,7 @@ public class cadastroColeta extends AppCompatActivity {
 
     public void cadastrarColeta() {
         Float qtd = Float.valueOf(quantidade);
-        String status = "Aberto";
+        String status = "Ativo";
 
         if (modalidade.equalsIgnoreCase("Venda")){
 
