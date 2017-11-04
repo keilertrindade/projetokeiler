@@ -45,11 +45,8 @@ public class meusMateriais extends AppCompatActivity {
     FirebaseUser user;
     DocumentReference coletaRef;
     ArrayList<Coleta> coletaArray;
-<<<<<<< HEAD
-=======
     RadioGroup RGrupo;
     String status;
->>>>>>> 944587277aa86c8c5f96ccea01d5ff8cfe52807b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +58,6 @@ public class meusMateriais extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<Coleta> coletaArray = new ArrayList<>();
 
-<<<<<<< HEAD
-=======
 
         RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -98,7 +93,6 @@ public class meusMateriais extends AppCompatActivity {
 
     private void buscarColetas(String status){
 
->>>>>>> 944587277aa86c8c5f96ccea01d5ff8cfe52807b
         db.collection("Coleta")
                 .whereEqualTo("proprietario", user.getUid()).whereEqualTo("status",status)
                 .get()
@@ -123,16 +117,8 @@ public class meusMateriais extends AppCompatActivity {
                     }
                 });
 
-<<<<<<< HEAD
     }
 
-    private void gerarLista(ArrayList array){
 
-        ListView lista = (ListView) findViewById(R.id.listaColetas);
-        AdapterLista adapter = new AdapterLista(array, this);
-        lista.setAdapter(adapter);
 
-=======
->>>>>>> 944587277aa86c8c5f96ccea01d5ff8cfe52807b
-    }
 }
