@@ -1,6 +1,7 @@
 package projeto.bionet.example.com.bionet;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -43,18 +45,62 @@ public class meusMateriais extends AppCompatActivity {
     FirebaseUser user;
     DocumentReference coletaRef;
     ArrayList<Coleta> coletaArray;
+<<<<<<< HEAD
+=======
+    RadioGroup RGrupo;
+    String status;
+>>>>>>> 944587277aa86c8c5f96ccea01d5ff8cfe52807b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meus_materiais);
 
+        RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<Coleta> coletaArray = new ArrayList<>();
 
+<<<<<<< HEAD
+=======
+
+        RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (checkedId == R.id.rbAtivos) {
+                    status = "Ativo";
+
+                }else if (checkedId == R.id.rbInativos){
+                    status = "Inativo";
+
+                }else if (checkedId == R.id.rbFinalizados){
+                    status = "Finalizado";
+
+                }
+
+                buscarColetas(status);
+
+            }
+        });
+
+
+    }
+
+    private void gerarLista(ArrayList array){
+
+        ListView lista = (ListView) findViewById(R.id.listaColetas);
+        AdapterLista adapter = new AdapterLista(array, this);
+        lista.setAdapter(adapter);
+
+    }
+
+    private void buscarColetas(String status){
+
+>>>>>>> 944587277aa86c8c5f96ccea01d5ff8cfe52807b
         db.collection("Coleta")
-                .whereEqualTo("proprietario", user.getUid())
+                .whereEqualTo("proprietario", user.getUid()).whereEqualTo("status",status)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -77,6 +123,7 @@ public class meusMateriais extends AppCompatActivity {
                     }
                 });
 
+<<<<<<< HEAD
     }
 
     private void gerarLista(ArrayList array){
@@ -85,5 +132,7 @@ public class meusMateriais extends AppCompatActivity {
         AdapterLista adapter = new AdapterLista(array, this);
         lista.setAdapter(adapter);
 
+=======
+>>>>>>> 944587277aa86c8c5f96ccea01d5ff8cfe52807b
     }
 }
