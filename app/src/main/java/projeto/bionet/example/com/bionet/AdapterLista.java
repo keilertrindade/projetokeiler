@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,11 +18,14 @@ public class AdapterLista extends BaseAdapter {
 
     private final List<Coleta> coletas;
     private final Activity act;
+    int selectedIndex = -1;
+    private RadioButton listRadioButton = null;
 
     public AdapterLista(List<Coleta> coletas, Activity act) {
         this.coletas = coletas;
         this.act = act;
     }
+
 
     @Override
     public int getCount() {

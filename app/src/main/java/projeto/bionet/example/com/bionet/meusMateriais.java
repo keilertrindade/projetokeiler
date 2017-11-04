@@ -4,11 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -45,19 +49,40 @@ public class meusMateriais extends AppCompatActivity {
     FirebaseUser user;
     DocumentReference coletaRef;
     ArrayList<Coleta> coletaArray;
-    RadioGroup RGrupo;
     String status;
+    private ProgressDialog mProgressDialog;
+    RadioGroup RGrupo;
+    RadioButton rButton;
+    Intent getIntent;
+    int listIndex = -1;
+    private RadioButton listRadioButton = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meus_materiais);
 
-        RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        final ArrayList<Coleta> coletaArray = new ArrayList<>();
 
+        status = "Ativo";
+        mProgressDialog = new ProgressDialog(this);
+        RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
+        getIntent = getIntent();
+
+        if (getIntent.getStringExtra("status").equalsIgnoreCase("Ativos")) {
+            status = "Ativo";
+            rButton = (RadioButton) findViewById(R.id.rbAtivos);
+            rButton.setChecked(true);
+        }else if (getIntent.getStringExtra("status").equalsIgnoreCase("Inativos")){
+            status = "Inativo";
+            rButton = (RadioButton) findViewById(R.id.rbInativos);
+            rButton.setChecked(true);
+        }else if (getIntent.getStringExtra("status").equalsIgnoreCase("Finalizados")) {
+            status = "Finalizado";
+            rButton = (RadioButton) findViewById(R.id.rbFinalizados);
+            rButton.setChecked(true);
+        }
 
         RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -65,17 +90,27 @@ public class meusMateriais extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rbAtivos) {
-                    status = "Ativo";
+                    Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
+                    intent.putExtra("status", "Ativos");
+                    finish();
+                    startActivity(intent);
+
 
                 }else if (checkedId == R.id.rbInativos){
-                    status = "Inativo";
+                    Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
+                    intent.putExtra("status", "Inativos");
+                    finish();
+                    startActivity(intent);
+
 
                 }else if (checkedId == R.id.rbFinalizados){
-                    status = "Finalizado";
+                    Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
+                    intent.putExtra("status", "Finalizados");
+                    finish();
+                    startActivity(intent);
+
 
                 }
-
-                buscarColetas(status);
 
             }
         });
@@ -83,18 +118,17 @@ public class meusMateriais extends AppCompatActivity {
 
     }
 
-    private void gerarLista(ArrayList array){
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
 
-        ListView lista = (ListView) findViewById(R.id.listaColetas);
-        AdapterLista adapter = new AdapterLista(array, this);
-        lista.setAdapter(adapter);
-
-    }
-
-    private void buscarColetas(String status){
+        final ArrayList<Coleta> coletaArray = new ArrayList<>();
+        mProgressDialog.setMessage("Consultando dados...");
+        mProgressDialog.show();
 
         db.collection("Coleta")
-                .whereEqualTo("proprietario", user.getUid()).whereEqualTo("status",status)
+                .whereEqualTo("proprietario", user.getUid()).whereEqualTo("status", status)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -110,13 +144,45 @@ public class meusMateriais extends AppCompatActivity {
                                 coletaArray.add(coleta);
                             }
                             gerarLista(coletaArray);
+                            mProgressDialog.dismiss();
                         } else {
-                            Toast.makeText(meusMateriais.this, "Você não tem nenhum material cadastrado!",
-                                    Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });
+    }
 
+    private void gerarLista(ArrayList array) {
+
+        if (array.size() == 0) {
+            View view = findViewById(R.id.activity_principal);
+            Snackbar.make(view, "Você não tem nenhum material "+status+" cadastrado!", Snackbar.LENGTH_INDEFINITE).show();
+        } else {
+
+        ListView lista = (ListView) findViewById(R.id.listaColetas);
+        AdapterLista adapter = new AdapterLista(array, this);
+        lista.setAdapter(adapter);
+    }
+
+    }
+
+    public void onClickRadioButton(View v) {
+        View vMain = ((View) v.getParent());
+        // getParent() must be added 'n' times,
+        // where 'n' is the number of RadioButtons' nested parents
+        // in your case is one.
+
+        // uncheck previous checked button.
+        if (listRadioButton != null) listRadioButton.setChecked(false);
+        // assign to the variable the new one
+        listRadioButton = (RadioButton) v;
+        // find if the new one is checked or not, and set "listIndex"
+        if (listRadioButton.isChecked()) {
+            listIndex = ((ViewGroup) vMain.getParent()).indexOfChild(vMain);
+        } else {
+            listRadioButton = null;
+            listIndex = -1;
+        }
     }
 
 

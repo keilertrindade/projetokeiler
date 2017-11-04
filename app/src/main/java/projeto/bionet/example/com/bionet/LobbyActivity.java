@@ -154,7 +154,9 @@ public class LobbyActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_meusmateriais){
+
             Intent intent = new Intent(LobbyActivity.this, meusMateriais.class);
+            intent.putExtra("status", "Ativos");
             startActivity(intent);
         }
 
