@@ -9,6 +9,8 @@ import java.util.Date;
 
 public class Coleta {
 
+    private String id;
+
     private String material;
     private String medida;
     private String modalidade;
@@ -36,9 +38,11 @@ public class Coleta {
 
     public Coleta(){}
 
-    public Coleta(String material, String medida, String modalidade, Float quantidade, String entrega,
+    public Coleta(String id, String material, String medida, String modalidade, Float quantidade, String entrega,
                   String cep, String rua, String num, String complemento, String bairro, String cidade,
                   String estado, String proprietario, Date data, String status){
+
+        this.id = id;
 
         this.material = material;
         this.medida = medida;
@@ -62,10 +66,12 @@ public class Coleta {
     }
 
 
-    public Coleta(String material, String medida, String modalidade, Float quantidade, String entrega,
+    public Coleta(String id, String material, String medida, String modalidade, Float quantidade, String entrega,
                   String cep, String rua, String num, String complemento, String bairro, String cidade,
                   String estado, String proprietario, Date data, String status, Float valor, Boolean dinheiro, Boolean debito,
                   Boolean credito, Boolean mercadopago){
+
+        this.id = id;
 
         this.material = material;
         this.medida = medida;
@@ -253,5 +259,13 @@ public class Coleta {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -51,6 +51,7 @@ public class meusMateriais extends AppCompatActivity {
     ArrayList<Coleta> coletaArray;
     String status;
     private ProgressDialog mProgressDialog;
+    private StorageReference storageRef;
     RadioGroup RGrupo;
     RadioButton rButton;
     Intent getIntent;
@@ -184,7 +185,5 @@ public class meusMateriais extends AppCompatActivity {
             listIndex = -1;
         }
     }
-
-
 
 }

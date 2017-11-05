@@ -4,17 +4,25 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,8 +38,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.gson.JsonElement;
 import com.squareup.picasso.Picasso;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.w3c.dom.Text;
 
@@ -41,6 +54,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -159,21 +173,23 @@ public class cadastroColeta extends AppCompatActivity {
         Float qtd = Float.valueOf(quantidade);
         String status = "Ativo";
 
+        String randId = getSaltString();
+
         if (modalidade.equalsIgnoreCase("Venda")){
 
             Float vlr = Float.valueOf(valor);
 
-            coleta = new Coleta(material, medida, modalidade, qtd,entrega,
+            coleta = new Coleta(randId, material, medida, modalidade, qtd,entrega,
                     cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),status,
                     vlr, dinheiro, debito, credito, mercadoPago);
         }
         else {
-            coleta = new Coleta(material, medida, modalidade, qtd, entrega,
+            coleta = new Coleta(randId, material, medida, modalidade, qtd, entrega,
                     cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),status
             );
         }
 
-        String randId = getSaltString(); // Adicionar verificação de id já existente, posso chegar se documento existe na coleção.
+         // Adicionar verificação de id já existente, posso chegar se documento existe na coleção.
 
         db.collection("Coleta").document(randId).set(coleta);
         uploadImage(randId);
@@ -355,25 +371,17 @@ public class cadastroColeta extends AppCompatActivity {
         }
         String saltStr = salt.toString();
 
-       /* saltStr = "6bmzGwUubnXDPjvURWWf";
+        //saltStr = "i6h7TqAypPgJ3GVAIip2"; */
 
-         while (checkExist(saltStr)){
+        /* while (checkExist(saltStr) == true){
             saltStr = getSaltString();
-        }*/
+        } */
 
         return saltStr;
     }
 
-  /*  protected Boolean checkExist (String saltStr){
-        Boolean exist = null ;
-        DocumentReference docRef = db.collection("Coleta").document(saltStr);
+  /* protected Boolean checkExist (String saltStr){
 
-        if (docRef.get().isSuccessful()){
-            exist = true;
-        } else {
-            exist = false;
-        }
-        return exist;
     } */
 
     public void uploadImage(String randId) {
@@ -383,8 +391,8 @@ public class cadastroColeta extends AppCompatActivity {
         //creating and showing progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setMax(100);
-        progressDialog.setMessage("Uploading...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMessage("Cadastrando...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
         progressDialog.setCancelable(false);
         //starting upload
@@ -403,7 +411,7 @@ public class cadastroColeta extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                Toast.makeText(cadastroColeta.this,"Error in uploading!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(cadastroColeta.this,"Erro no cadastro!",Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
