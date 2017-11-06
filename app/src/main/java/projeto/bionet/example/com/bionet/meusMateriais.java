@@ -39,36 +39,44 @@ import com.squareup.picasso.Picasso;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class meusMateriais extends AppCompatActivity {
 
+    ListView lista;
     private FirebaseAuth mAuth;
     FirebaseFirestore db;
     FirebaseUser user;
     DocumentReference coletaRef;
-    ArrayList<Coleta> coletaArray;
+    ArrayList<Coleta> coletaArrayRef;
     String status;
     private ProgressDialog mProgressDialog;
     private StorageReference storageRef;
     RadioGroup RGrupo;
     RadioButton rButton;
     Intent getIntent;
-    int listIndex = -1;
+    int listIndex;
     private RadioButton listRadioButton = null;
+    Button btEditar, btAtivo,btFinalizado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meus_materiais);
 
+        lista = (ListView) findViewById(R.id.listaColetas);
+        listIndex = -1;
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         status = "Ativo";
         mProgressDialog = new ProgressDialog(this);
         RGrupo = (RadioGroup) findViewById(R.id.radiogroup);
+        btEditar = (Button) findViewById(R.id.btEditar);
+        btAtivo = (Button) findViewById(R.id.btAtivo);
+        btFinalizado = (Button) findViewById(R.id.btFinalizado);
         getIntent = getIntent();
 
         if (getIntent.getStringExtra("status").equalsIgnoreCase("Ativos")) {
@@ -79,10 +87,12 @@ public class meusMateriais extends AppCompatActivity {
             status = "Inativo";
             rButton = (RadioButton) findViewById(R.id.rbInativos);
             rButton.setChecked(true);
+            btAtivo.setText("Ativar");
         }else if (getIntent.getStringExtra("status").equalsIgnoreCase("Finalizados")) {
             status = "Finalizado";
             rButton = (RadioButton) findViewById(R.id.rbFinalizados);
             rButton.setChecked(true);
+            btFinalizado.setText("Reabrir");
         }
 
         RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -96,20 +106,17 @@ public class meusMateriais extends AppCompatActivity {
                     finish();
                     startActivity(intent);
 
-
                 }else if (checkedId == R.id.rbInativos){
                     Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
                     intent.putExtra("status", "Inativos");
                     finish();
                     startActivity(intent);
 
-
                 }else if (checkedId == R.id.rbFinalizados){
                     Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
                     intent.putExtra("status", "Finalizados");
                     finish();
                     startActivity(intent);
-
 
                 }
 
@@ -160,10 +167,11 @@ public class meusMateriais extends AppCompatActivity {
             Snackbar.make(view, "Você não tem nenhum material "+status+" cadastrado!", Snackbar.LENGTH_INDEFINITE).show();
         } else {
 
-        ListView lista = (ListView) findViewById(R.id.listaColetas);
-        AdapterLista adapter = new AdapterLista(array, this);
-        lista.setAdapter(adapter);
-    }
+            coletaArrayRef = new ArrayList<>();
+            coletaArrayRef = (ArrayList<Coleta>) array.clone();
+            AdapterLista adapter = new AdapterLista(array, this);
+            lista.setAdapter(adapter);
+        }
 
     }
 
@@ -185,5 +193,26 @@ public class meusMateriais extends AppCompatActivity {
             listIndex = -1;
         }
     }
+
+   public void editarItem(View v){
+
+       if (listIndex == -1){
+           Toast.makeText(meusMateriais.this,"Selecione um item!",
+                   Toast.LENGTH_LONG).show();
+       }
+       else {
+            Coleta coleta = coletaArrayRef.get(listIndex);
+           Intent intent = new Intent(meusMateriais.this,cadastroColeta.class);
+           intent.putExtra("atividade","alterar");
+           intent.putExtra("coleta",coleta);
+           startActivity(intent);
+
+           /*Toast.makeText(meusMateriais.this,"Selecionado item: "+coleta.getMaterial(),
+                   Toast.LENGTH_LONG).show(); */
+       }
+
+    }
+
+
 
 }

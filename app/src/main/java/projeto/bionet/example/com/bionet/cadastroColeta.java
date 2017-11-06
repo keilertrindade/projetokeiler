@@ -72,7 +72,7 @@ public class cadastroColeta extends AppCompatActivity {
     private UploadTask uploadTask;
     private FirebaseUser user;
     private Address retornoCep;
-    private Coleta coleta;
+    private Coleta coleta, coletaAlt;
 
     private EditText etQuantidade, etValor, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
     private Spinner spMaterial, spMedida, spModalidade, spEntrega;
@@ -85,6 +85,17 @@ public class cadastroColeta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_coleta);
+
+        Intent intent = getIntent();
+
+        if (intent.getStringExtra("atividade").equalsIgnoreCase("alterar")){
+
+            coletaAlt = (Coleta) intent.getSerializableExtra("coleta");
+
+            Toast.makeText(cadastroColeta.this,"Material: "+coletaAlt.getMaterial(),
+                    Toast.LENGTH_LONG).show();
+        }
+
 
         selectedImage = Uri.parse("android.resource://projeto.bionet.example.com.bionet/drawable/bionet");
 

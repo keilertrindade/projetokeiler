@@ -1,5 +1,6 @@
 package projeto.bionet.example.com.bionet;
 
+import java.io.Serializable;
 import java.security.Timestamp;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by Administrator on 02/11/2017.
  */
 
-public class Coleta {
+public class Coleta implements Serializable {
 
     private String id;
 

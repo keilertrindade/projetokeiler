@@ -72,27 +72,27 @@
             android:orientation="horizontal">
 
             <Button
-                android:text="Novo"
+                android:text="Editar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btCadastrar"
-                android:onClick="onCLick"/>
+                android:id="@+id/btEditar"
+                android:onClick="editarItem"/>
 
             <Button
-                android:text="Excluir"
+                android:text="Inativar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btExcluir"
-                android:onClick="btExcluir"/>
+                android:id="@+id/btAtivo"
+                android:onClick="btAtivo"/>
 
             <Button
-                android:text="Alterar"
+                android:text="Finalizar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btalterar" />
+                android:id="@+id/btFinalizado" />
         </LinearLayout>
     </LinearLayout>
     </RelativeLayout>
