@@ -143,6 +143,7 @@ public class LobbyActivity extends AppCompatActivity
         } else if (id == R.id.cadastromaterial) {
 
             Intent intent = new Intent(LobbyActivity.this, cadastroColeta.class);
+            intent.putExtra("atividade","cadastrar");
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {

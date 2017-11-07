@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -86,15 +87,7 @@ public class cadastroColeta extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_coleta);
 
-        Intent intent = getIntent();
 
-        if (intent.getStringExtra("atividade").equalsIgnoreCase("alterar")){
-
-            coletaAlt = (Coleta) intent.getSerializableExtra("coleta");
-
-            Toast.makeText(cadastroColeta.this,"Material: "+coletaAlt.getMaterial(),
-                    Toast.LENGTH_LONG).show();
-        }
 
 
         selectedImage = Uri.parse("android.resource://projeto.bionet.example.com.bionet/drawable/bionet");
@@ -149,6 +142,31 @@ public class cadastroColeta extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        Intent intent = getIntent();
+
+        if (intent.getStringExtra("atividade").equalsIgnoreCase("alterar")){
+
+            coletaAlt = (Coleta) intent.getSerializableExtra("coleta");
+            ArrayAdapter myAdap = (ArrayAdapter) spMaterial.getAdapter();
+            spMaterial.setSelection(myAdap.getPosition(coletaAlt.getMaterial()));
+            spMaterial.setEnabled(false); /*Talvez isso atrapalhe na hora de pegar o valor, mas isso não vai mudar muito já
+             que posso alterar o que salvarei na função*/
+
+
+            Toast.makeText(cadastroColeta.this,"Material: "+coletaAlt.getMaterial(),
+                    Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(cadastroColeta.this,"Novo Cadastro",
+                    Toast.LENGTH_LONG).show();
+        }
 
     }
 
