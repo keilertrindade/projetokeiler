@@ -218,7 +218,6 @@ public class meusMateriais extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }else {
 
-
             if (rbInativos.isChecked()) {
                 coleta.setStatus("Ativo");
             } else {

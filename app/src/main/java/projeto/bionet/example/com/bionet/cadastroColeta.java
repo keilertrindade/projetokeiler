@@ -227,7 +227,7 @@ public class cadastroColeta extends AppCompatActivity {
 
             String status = "Ativo";
 
-            String randId = getSaltString();
+            final String randId = getSaltString();
 
             if (modalidade.equalsIgnoreCase("Venda")) {
 
@@ -244,8 +244,21 @@ public class cadastroColeta extends AppCompatActivity {
 
             // Adicionar verificação de id já existente, posso chegar se documento existe na coleção.
 
-            db.collection("Coleta").document(randId).set(coleta);
-            uploadImage(randId);
+            db.collection("Coleta").document(randId).set(coleta).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    //String x = randId;
+                    uploadImage(randId);
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(cadastroColeta.this, "Erro ao realizar cadastro!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
         }else{
 
             if (modalidade.equalsIgnoreCase("Venda")) {
@@ -262,24 +275,42 @@ public class cadastroColeta extends AppCompatActivity {
             }
 
 
-
-            db.collection("Coleta").document(coletaAlt.getId()).set(coleta);
-
             if (selectedImage.equals("android.resource://projeto.bionet.example.com.bionet/drawable/bionet")){
-                db.collection("Coleta").document(coletaAlt.getId()).set(coleta);
-                Toast.makeText(cadastroColeta.this,"Alteração realizada com sucesso!",
-                        Toast.LENGTH_LONG).show();
-                Intent intentNew = new Intent(cadastroColeta.this, LobbyActivity.class);
-                startActivity(intentNew);
-                finish();
+                db.collection("Coleta").document(coletaAlt.getId()).set(coleta).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(cadastroColeta.this, "Alteração realizada com sucesso!",
+                                Toast.LENGTH_LONG).show();
+                        Intent intentNew = new Intent(cadastroColeta.this, LobbyActivity.class);
+                        startActivity(intentNew);
+                        finish();
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(cadastroColeta.this, "Erro ao realizar alteração!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
 
 
-            }else {
-                db.collection("Coleta").document(coletaAlt.getId()).set(coleta);
-                uploadImage(coletaAlt.getId());
+            }else{
+                db.collection("Coleta").document(coletaAlt.getId()).set(coleta).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        uploadImage(coletaAlt.getId());
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(cadastroColeta.this, "Erro ao realizar alteração!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+
             }
-
-
         }
 
     }
