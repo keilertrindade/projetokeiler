@@ -156,18 +156,39 @@ public class cadastroColeta extends AppCompatActivity {
 
             coletaAlt = (Coleta) intent.getSerializableExtra("coleta");
             ArrayAdapter myAdap = (ArrayAdapter) spMaterial.getAdapter();
+
             spMaterial.setSelection(myAdap.getPosition(coletaAlt.getMaterial()));
-            spMaterial.setEnabled(false); /*Talvez isso atrapalhe na hora de pegar o valor, mas isso não vai mudar muito já
-             que posso alterar o que salvarei na função*/
+            spMaterial.setEnabled(false);
 
+            myAdap = (ArrayAdapter) spMedida.getAdapter();
+            spMedida.setSelection(myAdap.getPosition(coletaAlt.getMedida()));
 
-            Toast.makeText(cadastroColeta.this,"Material: "+coletaAlt.getMaterial(),
-                    Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(cadastroColeta.this,"Novo Cadastro",
-                    Toast.LENGTH_LONG).show();
+            myAdap = (ArrayAdapter) spModalidade.getAdapter();
+            spModalidade.setSelection(myAdap.getPosition(coletaAlt.getModalidade()));
+
+            myAdap = (ArrayAdapter) spEntrega.getAdapter();
+            spEntrega.setSelection(myAdap.getPosition(coletaAlt.getEntrega()));
+
+            etQuantidade.setText(coletaAlt.getQuantidade().toString());
+
+            if(coletaAlt.getModalidade().equalsIgnoreCase("Venda")){
+                etValor.setText(coletaAlt.getValor().toString());
+
+                if (coletaAlt.getDinheiro() == true){
+                    cbDinheiro.setChecked(true);
+                }
+                if (coletaAlt.getDebito() == true){
+                    cbDebito.setChecked(true);
+                }
+                if (coletaAlt.getCredito() == true){
+                    cbCredito.setChecked(true);
+                }
+                if (coletaAlt.getMercadopago() == true){
+                    cbMercadoPago.setChecked(true);
+                }
+
+            }
         }
-
     }
 
     public void checarCampos(View v) {
@@ -195,33 +216,72 @@ public class cadastroColeta extends AppCompatActivity {
         else{
             checarPagamento();
         }
-
     }
 
     public void cadastrarColeta() {
         Float qtd = Float.valueOf(quantidade);
-        String status = "Ativo";
 
-        String randId = getSaltString();
+        Intent intent = getIntent();
 
-        if (modalidade.equalsIgnoreCase("Venda")){
+        if (intent.getStringExtra("atividade").equalsIgnoreCase("cadastrar")) {
 
-            Float vlr = Float.valueOf(valor);
+            String status = "Ativo";
 
-            coleta = new Coleta(randId, material, medida, modalidade, qtd,entrega,
-                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),status,
-                    vlr, dinheiro, debito, credito, mercadoPago);
+            String randId = getSaltString();
+
+            if (modalidade.equalsIgnoreCase("Venda")) {
+
+                Float vlr = Float.valueOf(valor);
+
+                coleta = new Coleta(randId, material, medida, modalidade, qtd, entrega,
+                        cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(), status,
+                        vlr, dinheiro, debito, credito, mercadoPago);
+            } else {
+                coleta = new Coleta(randId, material, medida, modalidade, qtd, entrega,
+                        cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(), status
+                );
+            }
+
+            // Adicionar verificação de id já existente, posso chegar se documento existe na coleção.
+
+            db.collection("Coleta").document(randId).set(coleta);
+            uploadImage(randId);
+        }else{
+
+            if (modalidade.equalsIgnoreCase("Venda")) {
+
+                Float vlr = Float.valueOf(valor);
+
+                coleta = new Coleta(coletaAlt.getId(), material, medida, modalidade, qtd, entrega,
+                        cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(), coletaAlt.getStatus(),
+                        vlr, dinheiro, debito, credito, mercadoPago);
+            } else {
+                coleta = new Coleta(coletaAlt.getId(), material, medida, modalidade, qtd, entrega,
+                        cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(), coletaAlt.getStatus()
+                );
+            }
+
+
+
+            db.collection("Coleta").document(coletaAlt.getId()).set(coleta);
+
+            if (selectedImage.equals("android.resource://projeto.bionet.example.com.bionet/drawable/bionet")){
+                db.collection("Coleta").document(coletaAlt.getId()).set(coleta);
+                Toast.makeText(cadastroColeta.this,"Alteração realizada com sucesso!",
+                        Toast.LENGTH_LONG).show();
+                Intent intentNew = new Intent(cadastroColeta.this, LobbyActivity.class);
+                startActivity(intentNew);
+                finish();
+
+
+            }else {
+                db.collection("Coleta").document(coletaAlt.getId()).set(coleta);
+                uploadImage(coletaAlt.getId());
+            }
+
+
         }
-        else {
-            coleta = new Coleta(randId, material, medida, modalidade, qtd, entrega,
-                    cep, rua, num, complemento, bairro, cidade, estado, user.getUid(), Calendar.getInstance().getTime(),status
-            );
-        }
 
-         // Adicionar verificação de id já existente, posso chegar se documento existe na coleção.
-
-        db.collection("Coleta").document(randId).set(coleta);
-        uploadImage(randId);
     }
 
 
@@ -400,21 +460,21 @@ public class cadastroColeta extends AppCompatActivity {
         }
         String saltStr = salt.toString();
 
-        //saltStr = "i6h7TqAypPgJ3GVAIip2"; */
-
-        /* while (checkExist(saltStr) == true){
-            saltStr = getSaltString();
-        } */
-
         return saltStr;
     }
 
-  /* protected Boolean checkExist (String saltStr){
+   protected Boolean checkExist (String saltStr){
 
-    } */
+       return true;
+
+   }
 
     public void uploadImage(String randId) {
         //create reference to images folder and assing a name to the file that will be uploaded
+
+
+
+
         imageRef = storageRef.child("coleta/"+randId);
 
         //creating and showing progress dialog
@@ -446,9 +506,7 @@ public class cadastroColeta extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                //taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                //Toast.makeText(cadastroColeta.this,"Upload successful",Toast.LENGTH_SHORT).show();
+
                 progressDialog.dismiss();
 
                 Toast.makeText(cadastroColeta.this,"Material Cadastrado com Sucesso!",
@@ -457,9 +515,6 @@ public class cadastroColeta extends AppCompatActivity {
                 Intent intent = new Intent(cadastroColeta.this, LobbyActivity.class);
                 startActivity(intent);
                 finish();
-
-                //showing the uploaded image in ImageView using the download url
-                // Picasso.with(cadastroColeta.this).load(downloadUrl).into(imageView);
             }
         });
     }
