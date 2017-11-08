@@ -85,14 +85,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/btAtivo"
-                android:onClick="btAtivo"/>
+                android:onClick="ativoInativo"/>
 
             <Button
                 android:text="Finalizar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btFinalizado" />
+                android:id="@+id/btFinalizado"
+                android:onClick="ativoFinalizado"/>
         </LinearLayout>
     </LinearLayout>
     </RelativeLayout>

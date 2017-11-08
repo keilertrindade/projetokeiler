@@ -10,6 +10,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -86,6 +88,8 @@ public class AdapterLista extends BaseAdapter {
         Glide.with(view.getContext())
                 .using(new FirebaseImageLoader())
                 .load(imageRef)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(imagem);
 
         tituloColeta.setText(titulo);
