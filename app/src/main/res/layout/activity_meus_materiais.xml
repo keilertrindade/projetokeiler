@@ -80,12 +80,12 @@
                 android:onClick="editarItem"/>
 
             <Button
-                android:text="Inativar"
+                android:id="@+id/btAtivo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btAtivo"
-                android:onClick="ativoInativo"/>
+                android:onClick="ativoInativo"
+                android:text="Inativar" />
 
             <Button
                 android:text="Finalizar"

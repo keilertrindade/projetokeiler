@@ -210,14 +210,12 @@ public class meusMateriais extends AppCompatActivity {
 
     public void ativoInativo(View v) {
 
-        RadioButton rbInativos = (RadioButton) findViewById(R.id.rbInativos);
-        Coleta coleta = coletaArrayRef.get(listIndex);
-
         if (listIndex == -1) {
             Toast.makeText(meusMateriais.this, "Selecione um item!",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
         }else {
-
+            RadioButton rbInativos = (RadioButton) findViewById(R.id.rbInativos);
+            Coleta coleta = coletaArrayRef.get(listIndex);
             if (rbInativos.isChecked()) {
                 coleta.setStatus("Ativo");
             } else {
@@ -228,31 +226,32 @@ public class meusMateriais extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(meusMateriais.this, "Status do material alterado com sucesso!",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(meusMateriais.this, "Erro ao alterar status do cadastro!",
-                                    Toast.LENGTH_LONG).show();
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
+
+            recreate();
         }
 
     }
 
     public void ativoFinalizado(View v) {
 
-        RadioButton rbFinalizados = (RadioButton) findViewById(R.id.rbFinalizados);
-        Coleta coleta = coletaArrayRef.get(listIndex);
+
 
         if (listIndex == -1) {
             Toast.makeText(meusMateriais.this, "Selecione um item!",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
         } else {
-
-
+            RadioButton rbFinalizados = (RadioButton) findViewById(R.id.rbFinalizados);
+            Coleta coleta = coletaArrayRef.get(listIndex);
             if (rbFinalizados.isChecked()) {
                 coleta.setStatus("Ativo");
             } else {
@@ -263,16 +262,18 @@ public class meusMateriais extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(meusMateriais.this, "Status do material alterado com sucesso!",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(meusMateriais.this, "Erro ao alterar status do cadastro!",
-                                    Toast.LENGTH_LONG).show();
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
+
+            recreate();
 
         }
     }
