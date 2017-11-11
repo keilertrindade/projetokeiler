@@ -80,7 +80,7 @@ public class cadastroColeta extends AppCompatActivity {
     private CheckBox cbDinheiro, cbCredito, cbDebito, cbMercadoPago;
     private String material, medida, modalidade, quantidade, entrega, valor, cep, rua, num, complemento, bairro, cidade, estado, teste;
     private Boolean dinheiro, debito, credito, mercadoPago;
-    DocumentReference profileRef;
+    DocumentReference profileRef, coletaRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -494,13 +494,7 @@ public class cadastroColeta extends AppCompatActivity {
         return saltStr;
     }
 
-   protected Boolean checkExist (String saltStr){
-
-       return true;
-
-   }
-
-    public void uploadImage(String randId) {
+     public void uploadImage(String randId) {
         //create reference to images folder and assing a name to the file that will be uploaded
 
 
