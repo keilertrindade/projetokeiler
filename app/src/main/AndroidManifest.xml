@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".cadastroPJuridica"
+            android:name=".CadastroPessoaJuridica"
             android:label="Cadastro Pessoa Jurídica">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -51,7 +51,8 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".meusMateriais"></activity>
+        <activity android:name=".MeusMateriais" />
+        <activity android:name=".Pesquisa"></activity>
     </application>
 
 </manifest>

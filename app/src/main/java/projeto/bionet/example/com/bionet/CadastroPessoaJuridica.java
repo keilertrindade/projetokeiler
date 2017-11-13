@@ -1,7 +1,6 @@
 package projeto.bionet.example.com.bionet;
 
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +29,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class cadastroPJuridica extends AppCompatActivity {
+public class CadastroPessoaJuridica extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -71,7 +70,7 @@ public class cadastroPJuridica extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.p_fisica) {
-                    Intent intent = new Intent(cadastroPJuridica.this,Cadastro_Usuario.class);
+                    Intent intent = new Intent(CadastroPessoaJuridica.this,Cadastro_Usuario.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fadeout, R.anim.fadein);
                     finish();
@@ -156,11 +155,11 @@ public class cadastroPJuridica extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(cadastroPJuridica.this, "Erro ao criar usuário!",
+                            Toast.makeText(CadastroPessoaJuridica.this, "Erro ao criar usuário!",
                                     Toast.LENGTH_LONG).show();
                         } else {
 
-                            Toast.makeText(cadastroPJuridica.this, "Usuário Criado com sucesso!",
+                            Toast.makeText(CadastroPessoaJuridica.this, "Usuário Criado com sucesso!",
                                     Toast.LENGTH_LONG).show();
 
                             salvarPerfil();
@@ -176,7 +175,7 @@ public class cadastroPJuridica extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(cadastroPJuridica.this, "Erro ao salvar informações - LOGAR 2!",
+                            Toast.makeText(CadastroPessoaJuridica.this, "Erro ao salvar informações - LOGAR 2!",
                                     Toast.LENGTH_LONG).show();
                         } else {
 
@@ -199,7 +198,7 @@ public class cadastroPJuridica extends AppCompatActivity {
 
 
 
-                            Intent intent = new Intent(cadastroPJuridica.this, Login.class);
+                            Intent intent = new Intent(CadastroPessoaJuridica.this, Login.class);
                             startActivity(intent);
                             finish();
                             // Talvez dar logout do usuário ativo para que ele possa realizar o login
