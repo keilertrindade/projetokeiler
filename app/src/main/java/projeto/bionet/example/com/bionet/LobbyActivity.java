@@ -2,6 +2,9 @@ package projeto.bionet.example.com.bionet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,9 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LobbyActivity extends AppCompatActivity
@@ -142,9 +148,6 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
-            Intent intent = new Intent(LobbyActivity.this, Pesquisa.class);
-            startActivity(intent);
-
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -153,7 +156,7 @@ public class LobbyActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_meusmateriais){
 
-            Intent intent = new Intent(LobbyActivity.this, MeusMateriais.class);
+            Intent intent = new Intent(LobbyActivity.this, meusMateriais.class);
             intent.putExtra("status", "Ativos");
             startActivity(intent);
         }
@@ -166,4 +169,7 @@ public class LobbyActivity extends AppCompatActivity
     private void Logout(View v){
 
     }
+
+
+
 }

@@ -2,10 +2,12 @@ package projeto.bionet.example.com.bionet;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,25 +16,34 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.gson.JsonElement;
+import com.squareup.picasso.Picasso;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MeusMateriais extends AppCompatActivity {
+public class meusMateriais extends AppCompatActivity {
 
     ListView lista;
     private FirebaseAuth mAuth;
@@ -90,26 +101,29 @@ public class MeusMateriais extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rbAtivos) {
-                    Intent intent = new Intent(MeusMateriais.this, MeusMateriais.class);
+                    Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
                     intent.putExtra("status", "Ativos");
                     finish();
                     startActivity(intent);
 
                 } else if (checkedId == R.id.rbInativos) {
-                    Intent intent = new Intent(MeusMateriais.this, MeusMateriais.class);
+                    Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
                     intent.putExtra("status", "Inativos");
                     finish();
                     startActivity(intent);
 
                 } else if (checkedId == R.id.rbFinalizados) {
-                    Intent intent = new Intent(MeusMateriais.this, MeusMateriais.class);
+                    Intent intent = new Intent(meusMateriais.this, meusMateriais.class);
                     intent.putExtra("status", "Finalizados");
                     finish();
                     startActivity(intent);
 
                 }
+
             }
         });
+
+
     }
 
     @Override
@@ -182,11 +196,11 @@ public class MeusMateriais extends AppCompatActivity {
     public void editarItem(View v) {
 
         if (listIndex == -1) {
-            Toast.makeText(MeusMateriais.this, "Selecione um item!",
+            Toast.makeText(meusMateriais.this, "Selecione um item!",
                     Toast.LENGTH_LONG).show();
         } else {
             Coleta coleta = coletaArrayRef.get(listIndex);
-            Intent intent = new Intent(MeusMateriais.this, cadastroColeta.class);
+            Intent intent = new Intent(meusMateriais.this, cadastroColeta.class);
             intent.putExtra("atividade", "alterar");
             intent.putExtra("coleta", coleta);
             startActivity(intent);
@@ -197,7 +211,7 @@ public class MeusMateriais extends AppCompatActivity {
     public void ativoInativo(View v) {
 
         if (listIndex == -1) {
-            Toast.makeText(MeusMateriais.this, "Selecione um item!",
+            Toast.makeText(meusMateriais.this, "Selecione um item!",
                     Toast.LENGTH_SHORT).show();
         }else {
             RadioButton rbInativos = (RadioButton) findViewById(R.id.rbInativos);
@@ -211,14 +225,14 @@ public class MeusMateriais extends AppCompatActivity {
             db.collection("Coleta").document(coleta.getId()).set(coleta).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(MeusMateriais.this, "Status do material alterado com sucesso!",
+                    Toast.makeText(meusMateriais.this, "Status do material alterado com sucesso!",
                             Toast.LENGTH_SHORT).show();
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MeusMateriais.this, "Erro ao alterar status do cadastro!",
+                            Toast.makeText(meusMateriais.this, "Erro ao alterar status do cadastro!",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -233,7 +247,7 @@ public class MeusMateriais extends AppCompatActivity {
 
 
         if (listIndex == -1) {
-            Toast.makeText(MeusMateriais.this, "Selecione um item!",
+            Toast.makeText(meusMateriais.this, "Selecione um item!",
                     Toast.LENGTH_SHORT).show();
         } else {
             RadioButton rbFinalizados = (RadioButton) findViewById(R.id.rbFinalizados);
@@ -247,14 +261,14 @@ public class MeusMateriais extends AppCompatActivity {
             db.collection("Coleta").document(coleta.getId()).set(coleta).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(MeusMateriais.this, "Status do material alterado com sucesso!",
+                    Toast.makeText(meusMateriais.this, "Status do material alterado com sucesso!",
                             Toast.LENGTH_SHORT).show();
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MeusMateriais.this, "Erro ao alterar status do cadastro!",
+                            Toast.makeText(meusMateriais.this, "Erro ao alterar status do cadastro!",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });

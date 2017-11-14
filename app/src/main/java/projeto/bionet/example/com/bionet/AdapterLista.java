@@ -40,6 +40,7 @@ public class AdapterLista extends BaseAdapter {
         this.act = act;
     }
 
+
     @Override
     public int getCount() {
         return coletas.size();
