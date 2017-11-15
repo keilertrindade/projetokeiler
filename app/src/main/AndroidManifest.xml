@@ -51,7 +51,8 @@
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".meusMateriais"></activity>
+        <activity android:name=".meusMateriais" />
+        <activity android:name=".ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

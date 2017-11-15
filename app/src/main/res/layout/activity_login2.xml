@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="187dp"
                 android:src="@drawable/bionet" />
 
             <android.support.design.widget.TextInputLayout
@@ -86,7 +86,18 @@
                 android:onClick="Cadastro"
                 android:textStyle="bold" />
 
+
         </LinearLayout>
+
+            <Button
+                android:id="@+id/pass_reset_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="resetarsenha"
+                android:text="esqueci minha senha"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

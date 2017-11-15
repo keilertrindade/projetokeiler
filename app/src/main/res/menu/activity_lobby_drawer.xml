@@ -3,6 +3,14 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Perfil" />
+        <item
+            android:id="@+id/nav_alterarp"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Alterar perfil" />
+        <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
             android:title="Noticias" />
@@ -20,10 +28,7 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Meus Materiais" />
 
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Perfil" />
+
     </group>
 
     <item android:title="Communicate">
