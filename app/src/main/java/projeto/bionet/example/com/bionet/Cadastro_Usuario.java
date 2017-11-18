@@ -40,8 +40,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseFirestore db;
     private FirebaseUser user;
-    private EditText etEmail, etSenha, etNome, etSnome, etCpf, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
-    private String email, senha, nome, snome, cpf, cep, rua, num, complemento, bairro, cidade, estado, teste;
+    private EditText etEmail, etSenha, etNome, etSnome, etTelefone, etCpf, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
+    private String email, senha, nome, snome, cpf, telefone, cep, rua, num, complemento, bairro, cidade, estado, teste;
     private Address retornoCep;
     DocumentReference profileRef;
     RadioGroup RGrupo;
@@ -77,6 +77,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
             etSnome = (EditText) findViewById(R.id.sobrenome);
             etCpf = (EditText) findViewById(R.id.cpf);
             etCpf.setEnabled(false);
+            etTelefone = (EditText) findViewById(R.id.telefone);
             etCep = (EditText) findViewById(R.id.cep);
             etRua = (EditText) findViewById(R.id.rua);
             etNum = (EditText) findViewById(R.id.num);
@@ -110,6 +111,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
                             etNome.setText(document.getString("nome"));
                             etSnome.setText(document.getString("sobrenome"));
                             etCpf.setText(document.getString("cpf"));
+                            etTelefone.setText(document.getString("telefone"));
                         } else {
                             Toast.makeText(Cadastro_Usuario.this, "Falha ao carregar dados.",
                                     Toast.LENGTH_LONG).show();
@@ -119,7 +121,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
                 }
             });
 
-
+// Talvez apagando isso não interfira em nada, já tá carregando os dados antes, e depois tbm.
             etNome = (EditText) findViewById(R.id.nome);
             etSnome = (EditText) findViewById(R.id.sobrenome);
             etCpf = (EditText) findViewById(R.id.cpf);
@@ -149,6 +151,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
             etCidade = (EditText) findViewById(R.id.cidade);
             etBairro = (EditText) findViewById(R.id.bairro);
             etEstado = (EditText) findViewById(R.id.estado);
+            etTelefone = (EditText) findViewById(R.id.telefone);
 
             RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -178,6 +181,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
             bairro = etBairro.getText().toString().trim();
             cidade = etCidade.getText().toString().trim();
             estado = etEstado.getText().toString().trim();
+            telefone = etTelefone.getText().toString().trim();
             if (TextUtils.isEmpty(nome)) {
                 etNome.setError("O campo Nome deve ser preenchido!");
                 etNome.requestFocus();
@@ -189,6 +193,10 @@ public class Cadastro_Usuario extends AppCompatActivity {
             } else if (TextUtils.isEmpty(cep) || cep.length() < 8) {
                 etCep.setError("O campo CEP deve ser preenchido!");
                 etCep.requestFocus();
+                return;
+            }else if (TextUtils.isEmpty(telefone) || telefone.length() < 11){
+                etTelefone.setError("Preencha o campo Telefone corretamente");
+                etTelefone.requestFocus();
                 return;
             }
             // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
@@ -222,6 +230,7 @@ public class Cadastro_Usuario extends AppCompatActivity {
             bairro = etBairro.getText().toString().trim();
             cidade = etCidade.getText().toString().trim();
             estado = etEstado.getText().toString().trim();
+            telefone = etTelefone.getText().toString().trim();
             if (TextUtils.isEmpty(email)) {
                 etEmail.setError("O campo Email deve ser preenchido!");
                 etEmail.requestFocus();
@@ -245,6 +254,10 @@ public class Cadastro_Usuario extends AppCompatActivity {
             } else if (TextUtils.isEmpty(cep) || cep.length() < 8) {
                 etCep.setError("O campo CEP deve ser preenchido!");
                 etCep.requestFocus();
+                return;
+            }else if (TextUtils.isEmpty(telefone) || telefone.length() < 11){
+                etTelefone.setError("Preencha o campo Telefone corretamente");
+                etTelefone.requestFocus();
                 return;
             }
             // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
@@ -317,6 +330,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
                                 usuario.put("cidade", cidade);
                                 usuario.put("estado", estado);
                                 usuario.put("tipo", "Pessoa Fisica");
+                                usuario.put("telefone", telefone);
+
                                 db.collection("Profile").document(id).set(usuario);
                                 Intent intent = new Intent(Cadastro_Usuario.this, Login.class);
                                 startActivity(intent);
@@ -338,6 +353,8 @@ public class Cadastro_Usuario extends AppCompatActivity {
             usuario.put("cidade", cidade);
             usuario.put("estado", estado);
             usuario.put("tipo", "Pessoa Fisica");
+            usuario.put("telefone", telefone);
+
             db.collection("Profile").document(id).set(usuario);
             Intent intent1 = new Intent(Cadastro_Usuario.this, Login.class);
             startActivity(intent1);

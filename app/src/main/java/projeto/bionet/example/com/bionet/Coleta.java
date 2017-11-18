@@ -27,6 +27,7 @@ public class Coleta implements Serializable {
     private String estado;
 
     private String proprietario;
+    private String telefone;
     private String status;
     private Date data;
 
@@ -41,7 +42,7 @@ public class Coleta implements Serializable {
 
     public Coleta(String id, String material, String medida, String modalidade, Float quantidade, String entrega,
                   String cep, String rua, String num, String complemento, String bairro, String cidade,
-                  String estado, String proprietario, Date data, String status){
+                  String estado, String proprietario, String telefone, Date data, String status){
 
         this.id = id;
 
@@ -60,6 +61,7 @@ public class Coleta implements Serializable {
         this.estado = estado;
 
         this.proprietario = proprietario;
+        this.telefone = telefone;
         this.status = status;
         this.data = data;
 
@@ -69,7 +71,7 @@ public class Coleta implements Serializable {
 
     public Coleta(String id, String material, String medida, String modalidade, Float quantidade, String entrega,
                   String cep, String rua, String num, String complemento, String bairro, String cidade,
-                  String estado, String proprietario, Date data, String status, Float valor, Boolean dinheiro, Boolean debito,
+                  String estado, String proprietario, String telefone, Date data, String status, Float valor, Boolean dinheiro, Boolean debito,
                   Boolean credito, Boolean mercadopago){
 
         this.id = id;
@@ -89,6 +91,7 @@ public class Coleta implements Serializable {
         this.estado = estado;
 
         this.proprietario = proprietario;
+        this.telefone = telefone;
         this.status = status;
         this.data = data;
 
@@ -268,5 +271,13 @@ public class Coleta implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }

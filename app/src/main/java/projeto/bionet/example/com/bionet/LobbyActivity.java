@@ -146,7 +146,9 @@ public class LobbyActivity extends AppCompatActivity
             intent.putExtra("atividade","cadastrar");
             startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.pesquisamaterial) {
+            Intent intent = new Intent(LobbyActivity.this, PesquisaMaterial.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_manage) {
 

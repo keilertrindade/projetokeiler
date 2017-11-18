@@ -41,8 +41,8 @@ public class cadastroPJuridica extends AppCompatActivity {
     FirebaseFirestore db;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
-    private EditText etEmail, etSenha, etRazao, etCnpj, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
-    private String email, senha, razao, cnpj, cep, rua, num, complemento, bairro, cidade, estado;
+    private EditText etEmail, etSenha, etRazao, etTelefone, etCnpj, etCep, etRua, etNum, etComplemento, etBairro, etCidade, etEstado;
+    private String email, senha, razao, telefone, cnpj, cep, rua, num, complemento, bairro, cidade, estado;
     private Address retornoCep;
     DocumentReference profileRef;
 
@@ -68,6 +68,7 @@ public class cadastroPJuridica extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getStringExtra("atividade").equalsIgnoreCase("alterar")) {
             etRazao = (EditText) findViewById(R.id.razao);
+            etTelefone = (EditText) findViewById(R.id.telefone);
             etCnpj = (EditText) findViewById(R.id.cnpj);
             etCnpj.setEnabled(false);
             etCep = (EditText) findViewById(R.id.cep);
@@ -94,6 +95,7 @@ public class cadastroPJuridica extends AppCompatActivity {
                             etEstado.setText(document.getString("estado"));
                             etRazao.setText(document.getString("Razão Social"));
                             etCnpj.setText(document.getString("cnpj"));
+                            etTelefone.setText(document.getString("telefone"));
                         } else {
                             Toast.makeText(cadastroPJuridica.this, "Documento Inexistente",
                                     Toast.LENGTH_LONG).show();
@@ -140,6 +142,7 @@ public class cadastroPJuridica extends AppCompatActivity {
             etCidade = (EditText) findViewById(R.id.cidade);
             etBairro = (EditText) findViewById(R.id.bairro);
             etEstado = (EditText) findViewById(R.id.estado);
+            etTelefone = (EditText) findViewById(R.id.telefone);
 
             RGrupo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -170,6 +173,7 @@ public class cadastroPJuridica extends AppCompatActivity {
             bairro = etBairro.getText().toString().trim();
             cidade = etCidade.getText().toString().trim();
             estado = etEstado.getText().toString().trim();
+            telefone = etTelefone.getText().toString().trim();
             if (TextUtils.isEmpty(razao)) {
                 etRazao.setError("O campo Nome deve ser preenchido!");
                 etRazao.requestFocus();
@@ -177,6 +181,10 @@ public class cadastroPJuridica extends AppCompatActivity {
             } else if (TextUtils.isEmpty(cep) || cep.length() < 8) {
                 etCep.setError("O campo CEP deve ser preenchido!");
                 etCep.requestFocus();
+                return;
+            }else if (TextUtils.isEmpty(telefone) || telefone.length() < 11){
+                etTelefone.setError("Preencha o campo Telefone corretamente");
+                etTelefone.requestFocus();
                 return;
             }
             // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
@@ -209,6 +217,7 @@ public class cadastroPJuridica extends AppCompatActivity {
             bairro = etBairro.getText().toString().trim();
             cidade = etCidade.getText().toString().trim();
             estado = etEstado.getText().toString().trim();
+            telefone = etTelefone.getText().toString().trim();
             if (TextUtils.isEmpty(email)) {
                 etEmail.setError("O campo Email deve ser preenchido!");
                 etEmail.requestFocus();
@@ -228,6 +237,10 @@ public class cadastroPJuridica extends AppCompatActivity {
             } else if (TextUtils.isEmpty(cep) || cep.length() < 8) {
                 etCep.setError("O campo CEP deve ser preenchido!");
                 etCep.requestFocus();
+                return;
+            }else if (TextUtils.isEmpty(telefone) || telefone.length() < 11){
+                etTelefone.setError("Preencha o campo Telefone corretamente");
+                etTelefone.requestFocus();
                 return;
             }
             // Talvez esses próximos não sejam necessários tendo em vista a checagem do CEP
@@ -297,6 +310,7 @@ public class cadastroPJuridica extends AppCompatActivity {
                                 usuario.put("cidade", cidade);
                                 usuario.put("estado", estado);
                                 usuario.put("tipo", "Pessoa Juridíca");
+                                usuario.put("telefone", telefone);
 
                                 db.collection("Profile").document(id).set(usuario);
 
@@ -324,6 +338,7 @@ public class cadastroPJuridica extends AppCompatActivity {
             usuario.put("cidade", cidade);
             usuario.put("estado", estado);
             usuario.put("tipo", "Pessoa Juridíca");
+            usuario.put("telefone", telefone);
 
             db.collection("Profile").document(id).set(usuario);
 
